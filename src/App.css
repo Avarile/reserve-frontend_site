@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+.map-container {
+    height: 50%;
+    width: 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.header {
+  display: flex;
+  padding: 9px 65px;
+  height: 141px;
+  align-items: center;
+  position: relative;
+}
+
+.logoA {
+  width: 99px;
+  height: 109px;
+}
+
+.loginBtn {
+  width: 140px;
+  height: 50px;
+  background-color: #6D6D1F;
+  position: absolute;
+  right: 65px;
+}
+
+.btn1 {
+  font-size: 20px;
+  width: 224px;
+  height: 57px;
+  background-color: #6D6D1F;
+  border-radius: 6px;
+  color: black;
+  margin: 0 20px;
+  border: initial;
+}
+
+.btn2 {
+  font-size: 20px;
+    color: #ffffff;
+    line-height: 23px;
+    width: 224px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding-bottom: 5px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+}
+
+.loginBtnLabel {
+  color: white;
+  font-size: 18px;
+}
+
+.bgItem{
+  background-color: #EBEAD5;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.contentItem {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-gap: 30px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  max-width: 1440px;
+  padding: 0 65px;
+  margin: 0px auto;
+} 
+.bannerItem{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center
+}
+.bannerItem h1 {
+  font-size: 64px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 63px;
+  font-weight: normal;
+}
+
+.bannerItem p{
+  font-size: 38px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 33px;
+  margin-top: 20px;
+
+}
+.contentItem h3 {
+  font-size: 33px;
+  color: #332820;
+  line-height: 33px;
+  font-weight: normal;
+  margin: 0px;
+  text-align: left;
+}
+.contentItem p {
+  font-size: 20px;
+  color: #2C2C2C;
+  line-height: 24px;
+  margin: 20px 0px !important;
+  text-align: left;
+}
+
