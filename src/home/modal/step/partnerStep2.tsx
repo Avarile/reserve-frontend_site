@@ -29,7 +29,8 @@ const currencies = [
     label: "Test_site_5",
   },
 ];
-const PartnerStep1: React.ComponentType<PartnerStep1PropsType> = (props) => {
+const 
+PartnerStep1: React.ComponentType<PartnerStep1PropsType> = (props) => {
   const { formRef } = props;
   return (
     <Container className={props.className}>

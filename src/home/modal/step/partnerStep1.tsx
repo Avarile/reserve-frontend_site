@@ -82,6 +82,7 @@ const PartnerStep1: React.ComponentType<PartnerStep1PropsType> = (props) => {
           <TextField
             onChange={(e) => {
               let value = e.target.value;
+              debugger
               formRef!.current.submitter["test_site"] = Number(value);
             }}
             select

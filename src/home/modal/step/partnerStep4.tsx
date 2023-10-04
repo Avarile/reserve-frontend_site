@@ -3,7 +3,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Container from "../common/partnerStepContainer.style";
 import { FormRef } from "../modal";
 import dayjs from 'dayjs'
-
 type PartnerStep1PropsType = {
   formRef?: React.MutableRefObject<FormRef>;
   className?: string;

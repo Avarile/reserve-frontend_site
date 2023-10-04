@@ -8,7 +8,7 @@ const _http = axios.create({
 _http.interceptors.request.use(
   (config) => {
     let token = sessionStorage.getItem("ACCESS_TOKEN");
-    if (token) {
+    if (token&&config.method!='put') {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

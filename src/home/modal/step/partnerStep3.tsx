@@ -40,7 +40,7 @@ const PartnerStep1: React.ComponentType<PartnerStep1PropsType> = (props) => {
              let value =  dayjs(e).format('YYYY-MM-DD')
              formRef!.current.info.date = value;
             }}
-            label="Submit Date"
+            label="first Name"
           />
         </div>
         <div className="each desktop-half required">
