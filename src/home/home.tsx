@@ -45,7 +45,7 @@ const Home: React.FC = () => {
     axios({
       method: "post",
       // url: "http://localhost:9000/api/sites/query",
-      url: "http://http://13.211.212.227:9006/api/sites/query",
+      url: "http://13.211.212.227:9006/api/sites/query",
       data: {}
     })
       .then((response: AxiosResponse) => {
