@@ -28,53 +28,6 @@ function App() {
     zoom: 11,
   };
 
-  const testSites: Array<ISite> = [
-    {
-      lat: -25.365,
-      lng: 131.043,
-      name: "test1_location",
-      site_id: 1,
-      location: "test Site 1",
-    },
-    {
-      lat: -29.365,
-      lng: 135.043,
-      name: "test2_location",
-      site_id: 2,
-      location: "test Site 2",
-    },
-    {
-      lat: -23.365,
-      lng: 151.043,
-      name: "test3_location",
-      site_id: 3,
-      location: "test Site 3",
-    },
-  ];
-
-  const markers: Array<ISite> = [
-    {
-      lat: -25.365,
-      lng: 131.043,
-      name: "test1_location",
-      site_id: 1,
-      location: "test Site 1",
-    },
-    {
-      lat: -29.365,
-      lng: 135.043,
-      name: "test2_location",
-      site_id: 2,
-      location: "test Site 2",
-    },
-    {
-      lat: -23.365,
-      lng: 151.043,
-      name: "test3_location",
-      site_id: 3,
-      location: "test Site 3",
-    },
-  ];
 
   // const onLoad = (map: any) => {
   //   const bounds = new google.maps.LatLngBounds();
