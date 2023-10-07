@@ -211,9 +211,6 @@ const Home: React.FC = () => {
                             console.log(
                               "marker clicked" + marker.lat + " " + marker.lng
                             );
-                            setTimeout(() => {
-                              setOpen(true);
-                            });
                           }}
                         />
                       )
@@ -360,7 +357,13 @@ const Home: React.FC = () => {
             <a className="each">Get started</a>
             <a className="each">Contact</a>
             <a className="each">Account</a>
-            <a className="each">Submit sample</a>
+            <a className="each"
+                onClick={() => {
+                  setTimeout(() => {
+                    setOpen(true);
+                  });
+                }}
+            >Submit sample</a>
             <a className="each">Privacy</a>
           </div>
         </div>
