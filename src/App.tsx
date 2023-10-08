@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from "react";
-import "./App.css";
-import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
-import { ISite } from "./interfaces";
-import Home from "./home/home";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useMemo, useState } from "react";
+import "./App.css";
+import Home from "./home/home";
+import { ISite } from "./interfaces";
+import { SnackbarProvider } from "notistack";
+
 function App() {
   const [searchString, setSearchString] = useState("");
   const [searchResults, setSearchResults] = useState<Array<ISite>>([]);
@@ -28,24 +29,15 @@ function App() {
     zoom: 11,
   };
 
-
-  // const onLoad = (map: any) => {
-  //   const bounds = new google.maps.LatLngBounds();
-  //   if (markers && markers.length > 0) {
-  //     for (let item of markers) {
-  //       bounds.extend(item);
-  //     }
-  //   }
-  //   map.fitBounds(bounds);
-  // };
-
   const center = useMemo(() => ({ lat: -25.363, lng: 131.044 }), []);
 
   return (
     <>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Home></Home>
-      </LocalizationProvider>
+      <SnackbarProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Home></Home>
+        </LocalizationProvider>
+      </SnackbarProvider>
     </>
   );
 }

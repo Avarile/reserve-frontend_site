@@ -1,6 +1,6 @@
 import axios from "axios";
 import { overrideHttpType } from "./overrideHttpType";
-
+import notify from "../../home/sample/common/notify";
 const _http = axios.create({
   timeout: 1000 * 30,
 });
@@ -22,7 +22,9 @@ _http.interceptors.response.use(
   (response) => {
     return response.data;
   },
-  (err) => {}
+  (err) => {
+    notify.error(err.response.data.message[0]||'error')
+  }
 );
 
 export const http = overrideHttpType(_http);

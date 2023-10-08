@@ -1,14 +1,16 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {GoogleMap, MarkerF, useLoadScript} from "@react-google-maps/api";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 import facebookSVG from "../assets/facebook.svg";
 import instagramSVG from "../assets/instagram.svg";
 import twitterSVG from "../assets/twitter.svg";
 import Container from "./home.style";
-import InputModal from "./modal/modal";
-import LoginModal from "./modal/loginModal";
-import {ISite} from "../interfaces";
-import axios, {AxiosError, AxiosResponse} from "axios";
+import { ISite } from "../interfaces";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import LoginModal from "./login/LoginModal";
+import SampleModal from "./sample/SampleModal";
+import ReservationModal from "./reservation/SampleModal";
 
+import { http } from "../common/http";
 const testMarkers = [
   {
     lat: -25.365,
@@ -32,28 +34,56 @@ const testMarkers = [
     location: "test Site 3",
   },
 ];
+export interface Request {
+  email: string;
+  first_name: string;
+  last_name: string;
+  message: string;
+  phone: string;
+}
+
+function contactCreateApi(params: Request) {
+  return http.request<{ data: any }>({
+    url: "/api/contact/create",
+    method: "POST",
+    data: params,
+  });
+}
 
 const Home: React.FC = () => {
-  const {isLoaded} = useLoadScript({
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyC2UQBWd-kkALximl2gxxBxuVTJ9rE2b7w",
   });
 
-  const center = useMemo(() => ({lat: -25.363, lng: 131.044}), []);
+  const center = useMemo(() => ({ lat: -25.363, lng: 131.044 }), []);
   const [sites, setSites] = useState([]);
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSampleOpen, setIsSampleOpen] = useState(false);
+  const [isReservationOpen, setIsReservationOpen] = useState(false);
+  const [siteId, setSiteId] = useState(0);
+  // cantact
+  const contactRef = useRef<Request>({
+    email: "",
+    first_name: "",
+    last_name: "",
+    message: "",
+    phone: "",
+  });
 
   useEffect(() => {
     axios({
       method: "post",
       // url: "http://localhost:9000/api/sites/query",
       url: "http://13.211.212.227:9006/api/sites/query",
-      data: {}
+      data: {},
     })
       .then((response: AxiosResponse) => {
-        setSites(response.data.data.content)
+        setSites(response.data.data.content);
       })
       .catch((error: AxiosError) => {
         console.log(error);
-      })
+      });
   }, []);
 
   const markers = useMemo(() => {
@@ -67,13 +97,10 @@ const Home: React.FC = () => {
         waterway: site.waterway,
         location: site.location,
         site_id: site.site_id,
-        name: site.name
+        name: site.name,
       };
     });
-  }, [sites])
-
-  const [open, setOpen] = useState(false);
-  const [openLogin, setOpenLogin] = useState(false);
+  }, [sites]);
 
   return (
     <Container>
@@ -86,12 +113,20 @@ const Home: React.FC = () => {
           <div className="navigation">
             <a className="text">Reserve testing site</a>
             <a className="text">FAQ</a>
-            <a className="text">Contact</a>
             <a
               onClick={() => {
-                setOpenLogin(true);
+                document.getElementById("roll1_top")!.scrollIntoView({
+                  behavior: "smooth",
+                });
               }}
-              className="button">
+              className="text">
+              Contact
+            </a>
+            <a
+              className="button"
+              onClick={() => {
+                setIsLoginOpen(true);
+              }}>
               Login / Signup
             </a>
           </div>
@@ -117,11 +152,11 @@ const Home: React.FC = () => {
         </section>
         <section
           className="section-container"
-          style={{background: "#EBEAD5"}}>
+          style={{ background: "#EBEAD5" }}>
           <div className="content">
             <div className="row-items">
               <div className="image">
-                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo.png"/>
+                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo.png" />
               </div>
               <div className="article">
                 <p className="text-l">
@@ -175,14 +210,14 @@ const Home: React.FC = () => {
                 </p>
               </div>
               <div className="image">
-                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png"/>
+                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png" />
               </div>
             </div>
           </div>
         </section>
         <section
           className="section-container"
-          style={{background: "#EBEAD5"}}>
+          style={{ background: "#EBEAD5" }}>
           <div className="content">
             <div className="title">
               <p className="high">Reserve your testing site</p>
@@ -202,20 +237,23 @@ const Home: React.FC = () => {
                   center={center}
                   zoom={10}>
                   {markers.map((marker: any, index: number) => {
-                    console.log(marker)
-                      return (
-                        <MarkerF
-                          key={index}
-                          position={{lat: marker.lat, lng: marker.lng}}
-                          onClick={() => {
-                            console.log(
-                              "marker clicked" + marker.lat + " " + marker.lng
-                            );
-                          }}
-                        />
-                      )
-                    }
-                  )}
+                    // console.log(marker)
+                    return (
+                      <MarkerF
+                        key={index}
+                        position={{ lat: marker.lat, lng: marker.lng }}
+                        onClick={() => {
+                          // 没登陆，弹出登陆
+                          if (!sessionStorage.getItem("ACCESS_TOKEN")) {
+                            setIsLoginOpen(true);
+                          } else {
+                            setSiteId(marker.site_id);
+                            setIsReservationOpen(true);
+                          }
+                        }}
+                      />
+                    );
+                  })}
                 </GoogleMap>
               )}
               <div className="form">
@@ -275,17 +313,18 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </div>
-            <p style={{marginTop: "22px"}}>
+            <p style={{ marginTop: "22px" }}>
               Water sampling can take place anytime between 16 October – 27
               November 2023
             </p>
           </div>
         </section>
+        <div id="roll1_top"></div>
         <section className="section-container">
           <div className="content">
             <div className="title">
               <p className="high">Get in touch</p>
-              <p className="normal" style={{color: "#6D6D1F"}}>
+              <p className="normal" style={{ color: "#6D6D1F" }}>
                 Our friendly team would love to hear from you.
               </p>
             </div>
@@ -293,20 +332,41 @@ const Home: React.FC = () => {
               <div className="name-wrapper">
                 <div className="form-item">
                   <label>First name</label>
-                  <input type="text" placeholder="First name"/>
+                  <input
+                    onChange={(e) => {
+                      contactRef.current.first_name = e.target.value;
+                    }}
+                    type="text"
+                    placeholder="First name"
+                  />
                 </div>
                 <div className="form-item">
                   <label>Last name</label>
-                  <input type="text" placeholder="Last name"/>
+                  <input
+                    onChange={(e) => {
+                      contactRef.current.last_name = e.target.value;
+                    }}
+                    type="text"
+                    placeholder="Last name"
+                  />
                 </div>
               </div>
               <div className="form-item">
                 <label>Email</label>
-                <input type="email" placeholder="you@company.com"/>
+                <input
+                  onChange={(e) => {
+                    contactRef.current.email = e.target.value;
+                  }}
+                  type="email"
+                  placeholder="you@company.com"
+                />
               </div>
               <div className="form-item">
                 <label>Phone number</label>
                 <input
+                  onChange={(e) => {
+                    contactRef.current.phone = e.target.value;
+                  }}
                   type="tel"
                   pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   placeholder="0412 345 678"
@@ -314,13 +374,24 @@ const Home: React.FC = () => {
               </div>
               <div className="form-item">
                 <label>Message</label>
-                <textarea rows={4} cols={50}></textarea>
+                <textarea
+                  onChange={(e) => {
+                    contactRef.current.message = e.target.value;
+                  }}
+                  rows={4}
+                  cols={50}></textarea>
               </div>
               <div className="form-check">
-                <input type="checkbox"/>
+                <input type="checkbox" />
                 <label>You agree to our privacy policy.</label>
               </div>
-              <button className="submit">Send message</button>
+              <button
+                className="submit"
+                onClick={() => {
+                  contactCreateApi(contactRef.current);
+                }}>
+                Send message
+              </button>
             </div>
           </div>
         </section>
@@ -328,26 +399,26 @@ const Home: React.FC = () => {
       <div className="aside-area">
         <div className="content">
           <div className="left">
-            <p className="text-m" style={{marginBottom: "16px"}}>
+            <p className="text-m" style={{ marginBottom: "16px" }}>
               The Great Australian Wildlife Search is a program of the Odonata
               Foundation, thanks to the generous support of the Murray–Darling
               Basin Authority. All donations of $2 or more are tax-deductible in
               Australia.
             </p>
-            <p className="text-m" style={{margin: "30px 0 16px 0"}}>
+            <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
               The Great Australian Wildlife Search is delivered by
             </p>
             <div className="image-row">
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/footerLogo.png"/>
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/footerLogo.png" />
             </div>
-            <p className="text-m" style={{margin: "30px 0 16px 0"}}>
+            <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
               In partnership with
             </p>
             <div className="image-row">
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/MDBA-Logo-1-1.png"/>
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/EnviroDNA-blue-1.png"/>
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/MDBA-Logo-1-1.png" />
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/EnviroDNA-blue-1.png" />
             </div>
-            <p className="text-s" style={{margin: "30px 0 16px 0"}}>
+            <p className="text-s" style={{ margin: "30px 0 16px 0" }}>
               We acknowledge the Indigenous people of Australia as the
               Traditional Custodians of the lands where we live, learn and work.
               We pay our respects to their Elders past, present and emerging.
@@ -357,13 +428,13 @@ const Home: React.FC = () => {
             <a className="each">Get started</a>
             <a className="each">Contact</a>
             <a className="each">Account</a>
-            <a className="each"
-                onClick={() => {
-                  setTimeout(() => {
-                    setOpen(true);
-                  });
-                }}
-            >Submit sample</a>
+            <a
+              className="each"
+              onClick={() => {
+                setIsSampleOpen(true);
+              }}>
+              Submit sample
+            </a>
             <a className="each">Privacy</a>
           </div>
         </div>
@@ -376,22 +447,28 @@ const Home: React.FC = () => {
             </p>
             <div className="icons">
               <a className="each">
-                <img src={facebookSVG}/>
+                <img src={facebookSVG} />
               </a>
               <a className="each">
-                <img src={instagramSVG}/>
+                <img src={instagramSVG} />
               </a>
               <a className="each">
-                <img src={twitterSVG}/>
+                <img src={twitterSVG} />
               </a>
             </div>
           </div>
         </div>
       </div>
-      <InputModal open={open} onClose={() => setOpen(false)}></InputModal>
+      <ReservationModal
+        siteId={siteId}
+        open={isReservationOpen}
+        onClose={() => setIsReservationOpen(false)}></ReservationModal>
       <LoginModal
-        open={openLogin}
-        onClose={() => setOpenLogin(false)}></LoginModal>
+        open={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}></LoginModal>
+      <SampleModal
+        open={isSampleOpen}
+        onClose={() => setIsSampleOpen(false)}></SampleModal>
     </Container>
   );
 };

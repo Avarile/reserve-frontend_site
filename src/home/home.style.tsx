@@ -60,6 +60,7 @@ const Container = styled((props: any) => {
                     fontSize: '16px',
                     color: '#FFFFFF',
                     borderRadius: '6px',
+                    cursor: 'pointer',
                 },
             },
         },
