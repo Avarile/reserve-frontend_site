@@ -20,7 +20,6 @@ _http.interceptors.request.use(
 
 _http.interceptors.response.use(
   (response) => {
-    debugger;
     return response.data;
   },
   (err) => {
