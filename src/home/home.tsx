@@ -102,11 +102,11 @@ const Home: React.FC = () => {
   });
 
   useEffect(() => {
-    const current_user_session = window.sessionStorage.getItem("USER");
-    if (current_user_session) {
-      setLogin(true);
-      setCurrentUser(JSON.parse(current_user_session));
-    }
+    // const current_user_session = window.sessionStorage.getItem("USER");
+    // if (current_user_session) {
+    //   setLogin(true);
+    //   setCurrentUser(JSON.parse(current_user_session));
+    // }
 
     axios({
       method: "post",
@@ -120,7 +120,10 @@ const Home: React.FC = () => {
       .catch((error: AxiosError) => {
         console.log(error);
       });
-  }, [login, currentUser]);
+
+  }, [currentUser]);
+
+
 
   const markers = useMemo(() => {
     return sites.map((site: ISite) => {
