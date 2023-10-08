@@ -15,7 +15,7 @@ import { UploadProps } from "./types";
 // import RejectionFiles from './errors-rejection-files';
 // import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from "./preview-single-file";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 import { http } from "./http";
@@ -82,6 +82,7 @@ export default function Upload({
     disabled,
     ...other,
   });
+  const [fileList,setFiles] = useState<string[]>([])
 
   useEffect(() => {
     let file = acceptedFiles[0];
@@ -96,8 +97,9 @@ export default function Upload({
       type: FileType.UserAvatar,
     }).then((res) => {
       console.log(res);
-
-      fileUploadApi(res.data.content.presignedUrl, file);
+      fileUploadApi(res.data.content.presignedUrl, file).then(()=>{
+        setFiles([res.data.content.fileUrl])
+      });
       handleFileChange(res.data.content.fileUrl);
     });
   }, [acceptedFiles]);
@@ -179,6 +181,7 @@ export default function Upload({
           cursor: "pointer",
           overflow: "hidden",
           position: "relative",
+          height:280,
           bgcolor: (theme) => alpha(theme.palette.grey[500], 0.08),
           border: (theme) => `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
           transition: (theme) => theme.transitions.create(["opacity", "padding"]),
@@ -202,7 +205,9 @@ export default function Upload({
           }),
         }}>
         <input {...getInputProps()} />
-        {hasFile ? renderSinglePreview : renderPlaceholder}
+        {fileList.length ? fileList.map((item)=>{
+          return <SingleFilePreview imgUrl={item}></SingleFilePreview>
+        }) : renderPlaceholder}
       </Box>
 
       {removeSinglePreview}
