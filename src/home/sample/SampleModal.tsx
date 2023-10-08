@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { Dispatch, useRef, useState } from "react";
 import { Modal } from "@mui/material";
 import { http } from "../../common/http";
 import Container from "./SampleModal.style";
@@ -16,6 +16,7 @@ function sampleCreateApi(params: FormRef) {
 }
 
 type InputModalPropsType = {
+  setIsSampleOpen: Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
   sites: any[];
   onClose?: () => void;
@@ -105,7 +106,14 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
                 }}>
                 Submit another sample
               </button>
-              <button className="full">Done</button>
+              <button
+                className="full"
+                onClick={() => {
+                  // todo: 点击关闭 这个modal
+                  props.setIsSampleOpen(false);
+                }}>
+                Done
+              </button>
             </div>
           </>
         ) : (

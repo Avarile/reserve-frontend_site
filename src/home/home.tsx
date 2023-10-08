@@ -637,16 +637,8 @@ const Home: React.FC = () => {
         </div>
       </div>
       {/* <ReservationModal siteId={siteId} open={isReservationOpen} onClose={() => setIsReservationOpen(false)}></ReservationModal> */}
-      <LoginModal
-        open={isLoginOpen}
-        login={login}
-        setLogin={setLogin}
-        setCurrentUser={setCurrentUser}
-        onClose={() => setIsLoginOpen(false)}></LoginModal>
-      <SampleModal
-        open={isSampleOpen}
-        sites={markers}
-        onClose={() => setIsSampleOpen(false)}></SampleModal>
+      <LoginModal open={isLoginOpen} login={login} setLogin={setLogin} setCurrentUser={setCurrentUser} onClose={() => setIsLoginOpen(false)}></LoginModal>
+      <SampleModal open={isSampleOpen} sites={markers} setIsSampleOpen={setIsSampleOpen} onClose={() => setIsSampleOpen(false)}></SampleModal>
     </Container>
   );
 };

@@ -26,8 +26,8 @@ export interface FileUploadApiRequest {
   id: number;
   type: FileType;
   file?: File;
-  user_id:number;
-  site_id:string;
+  user_id: number;
+  site_id: string;
 }
 
 export enum FileType {
@@ -40,23 +40,23 @@ export enum FileType {
 }
 
 export interface FileUploadApiRespone {
-  // 资源路径
-  fileUrl: string;
-  // 上传路径
-  presignedUrl: string;
+    // 资源路径
+    fileUrl: string;
+    // 上传路径
+    presignedUrl: string;
 }
 function getUploadUrlApi(params: FileUploadApiRequest) {
-  return http.request<{data:FileUploadApiRespone}>({
+  return http.request<{ content: FileUploadApiRespone }>({
     url: "/api/sample/upload/image",
     method: "POST",
     data: params,
   });
 }
 function fileUploadApi(url: string, params: File) {
-  return http.put(url, params,{
-    headers:{
-      "Content-Type":'multipart/form-data'
-    }
+  return http.put(url, params, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 }
 export default function Upload({
@@ -77,13 +77,7 @@ export default function Upload({
   sx,
   ...other
 }: UploadProps) {
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragReject,
-    acceptedFiles,
-  } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, isDragReject, acceptedFiles } = useDropzone({
     multiple,
     disabled,
     ...other,
@@ -91,19 +85,21 @@ export default function Upload({
 
   useEffect(() => {
     let file = acceptedFiles[0];
-    if(!file) return 
+    if (!file) return;
     getUploadUrlApi({
-      user_id:1,
-      site_id:'312',
+      user_id: 1,
+      site_id: "312",
       content_type: file.type,
       file_name: file.name,
       file_size: file.size,
       id: 0,
       type: FileType.UserAvatar,
-    }).then((res)=>{
-      fileUploadApi(res.data.data.presignedUrl,file)
-      handleFileChange(res.data.data.fileUrl)
-    })
+    }).then((res) => {
+      console.log(res);
+
+      fileUploadApi(res.data.content.presignedUrl, file);
+      handleFileChange(res.data.content.fileUrl);
+    });
   }, [acceptedFiles]);
   const hasFile = !!file && !multiple;
 
@@ -112,11 +108,7 @@ export default function Upload({
   const hasError = isDragReject || !!error;
 
   const renderPlaceholder = (
-    <Stack
-      spacing={3}
-      alignItems="center"
-      justifyContent="center"
-      flexWrap="wrap">
+    <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
       <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
       <Stack spacing={1} sx={{ textAlign: "center" }}>
         <Typography variant="h6">Drop or Select file</Typography>
@@ -137,11 +129,7 @@ export default function Upload({
     </Stack>
   );
 
-  const renderSinglePreview = (
-    <SingleFilePreview
-      imgUrl={typeof file === "string" ? file : file?.preview}
-    />
-  );
+  const renderSinglePreview = <SingleFilePreview imgUrl={typeof file === "string" ? file : file?.preview} />;
 
   const removeSinglePreview = hasFile && onDelete && (
     <IconButton
@@ -166,21 +154,13 @@ export default function Upload({
     <>
       <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
-          <Button
-            color="inherit"
-            variant="outlined"
-            size="small"
-            onClick={onRemoveAll}>
+          <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
             Remove All
           </Button>
         )}
 
         {onUpload && (
-          <Button
-            size="small"
-            variant="contained"
-            onClick={onUpload}
-            startIcon={<Iconify icon="eva:cloud-upload-fill" />}>
+          <Button size="small" variant="contained" onClick={onUpload} startIcon={<Iconify icon="eva:cloud-upload-fill" />}>
             Upload
           </Button>
         )}
@@ -200,10 +180,8 @@ export default function Upload({
           overflow: "hidden",
           position: "relative",
           bgcolor: (theme) => alpha(theme.palette.grey[500], 0.08),
-          border: (theme) =>
-            `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
-          transition: (theme) =>
-            theme.transitions.create(["opacity", "padding"]),
+          border: (theme) => `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
+          transition: (theme) => theme.transitions.create(["opacity", "padding"]),
           "&:hover": {
             opacity: 0.72,
           },
