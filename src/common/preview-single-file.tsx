@@ -17,7 +17,7 @@ export default function SingleFilePreview({imgUrl = ''}: Props) {
                 top: 0,
                 left: 0,
                 width: 1,
-                height: 1,
+                height: '500px',
                 position: 'absolute',
             }}
         >
