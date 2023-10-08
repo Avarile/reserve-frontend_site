@@ -107,11 +107,11 @@ const Home: React.FC = () => {
   });
 
   useEffect(() => {
-    const current_user_session = window.sessionStorage.getItem("USER");
-    if (current_user_session) {
-      setLogin(true);
-      setCurrentUser(JSON.parse(current_user_session));
-    }
+    // const current_user_session = window.sessionStorage.getItem("USER");
+    // if (current_user_session) {
+    //   setLogin(true);
+    //   setCurrentUser(JSON.parse(current_user_session));
+    // }
 
     login&&sitesApi().then((res) => {
       setSites(res.data.content);
