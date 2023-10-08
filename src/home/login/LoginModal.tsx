@@ -21,7 +21,14 @@ function getCurrentUserApi() {
   });
 }
 
-function registerApi(params: { email: string; password: string; name: string; address: string; postcode: string; city: string }) {
+function registerApi(params: {
+  email: string;
+  password: string;
+  name: string;
+  address: string;
+  postcode: string;
+  city: string;
+}) {
   return http.request({
     url: "/api/auth/register",
     method: "POST",
@@ -60,30 +67,39 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
     loginApi(loginFormRef.current)
       .then((res) => {
         props.onClose && props.onClose();
-
         sessionStorage.setItem("ACCESS_TOKEN", res.data.content);
       })
       .then(() => {
         getCurrentUserApi().then((res) => {
-          sessionStorage.setItem("USER", JSON.stringify(res.data.content[0]));
-          props.setCurrentUser(res.data.content[0]);
+          sessionStorage.setItem(
+            "USER",
+            res.data.content[0] ? JSON.stringify(res.data.content[0]) : ""
+          );
+          props.setCurrentUser(res.data.content);
         });
 
-        enqueueSnackbar("Login successfully!", { variant: "success", autoHideDuration: 2000 });
+        enqueueSnackbar("Login successfully!", {
+          variant: "success",
+          autoHideDuration: 2000,
+        });
         props.setLogin(true);
       });
   };
 
   const register = () => {
-    if (!registerFormRef.current.email || !loginFormRef.current.password) return;
+    if (!registerFormRef.current.email || !registerFormRef.current.password)
+      return;
     registerApi(registerFormRef.current).then((res) => {
-      props.onClose && props.onClose();
-      sessionStorage.setItem("ACCESS_TOKEN", res.data.data);
+      setType("login");
     });
   };
 
   return (
-    <Modal open={props.open} onClose={() => props.onClose && props.onClose()} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose && props.onClose()}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description">
       <Container>
         <div className="logo">
           <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
@@ -91,7 +107,9 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
         {type === "login" ? (
           <>
             <div className="title">Login to your account</div>
-            <div className="sub-title">Welcome back! Please enter your details.</div>
+            <div className="sub-title">
+              Welcome back! Please enter your details.
+            </div>
             <div className="content">
               <div className="each-frame">
                 <LoginForm formRef={loginFormRef}></LoginForm>

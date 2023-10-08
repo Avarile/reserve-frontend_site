@@ -52,7 +52,12 @@ export interface Request {
   message: string;
   phone: string;
 }
-
+function sitesApi() {
+  return http.request({
+    url: "/api/sites/query",
+    method: "POST",
+  });
+}
 function contactCreateApi(params: Request) {
   return http.request<{ data: any }>({
     url: "/api/contact/create",
@@ -108,18 +113,9 @@ const Home: React.FC = () => {
       setCurrentUser(JSON.parse(current_user_session));
     }
 
-    axios({
-      method: "post",
-      // url: "http://localhost:9000/api/sites/query",
-      url: "http://13.211.212.227:9006/api/sites/query",
-      data: {},
-    })
-      .then((response: AxiosResponse) => {
-        setSites(response.data.data.content);
-      })
-      .catch((error: AxiosError) => {
-        console.log(error);
-      });
+    login&&sitesApi().then((res) => {
+      setSites(res.data.content);
+    });
   }, [login]);
 
   const markers = useMemo(() => {
@@ -142,7 +138,10 @@ const Home: React.FC = () => {
     <Container>
       <div className="header-wrapper">
         <div className="header">
-          <img className="logo" src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
+          <img
+            className="logo"
+            src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg"
+          />
           <div className="navigation">
             <a className="text">Reserve testing site</a>
             <a className="text">FAQ</a>
@@ -167,17 +166,25 @@ const Home: React.FC = () => {
       </div>
       <div className="content-area">
         <section className="banner">
-          <img className="image" src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/bannerImage.png" />
+          <img
+            className="image"
+            src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/bannerImage.png"
+          />
           <div className="content">
             <p className="title">Join the Great Australian Wildlife Search</p>
-            <p className="paragraph">A revolution in wildlife mapping and conservation, delivered by Odonata Foundation</p>
+            <p className="paragraph">
+              A revolution in wildlife mapping and conservation, delivered by
+              Odonata Foundation
+            </p>
             <div className="buttons">
               <a className="each left">Volunteer now</a>
               <a className="each right">Learn more</a>
             </div>
           </div>
         </section>
-        <section className="section-container" style={{ background: "#EBEAD5" }}>
+        <section
+          className="section-container"
+          style={{ background: "#EBEAD5" }}>
           <div className="content">
             <div className="row-items">
               <div className="image">
@@ -185,14 +192,21 @@ const Home: React.FC = () => {
               </div>
               <div className="article">
                 <p className="text-l">
-                  Imagine you could identify where threatened species live by collecting just a few samples of water… thanks to new environmental DNA (eDNA) technology this is now a reality, and we
-                  need you!
+                  Imagine you could identify where threatened species live by
+                  collecting just a few samples of water… thanks to new
+                  environmental DNA (eDNA) technology this is now a reality, and
+                  we need you!
                 </p>
                 <p className="text-s">
-                  By knowing where our precious wildlife live, like the platypus and Marray River short-necked turtle, we could conserve their habitat for generations to come. Please help us collect
-                  water samples which contain DNA from animals that have passed through the area in the past 14 days – pretty wild hey!
+                  By knowing where our precious wildlife live, like the platypus
+                  and Marray River short-necked turtle, we could conserve their
+                  habitat for generations to come. Please help us collect water
+                  samples which contain DNA from animals that have passed
+                  through the area in the past 14 days – pretty wild hey!
                 </p>
-                <p className="text-s">Learn more about why eDNA sampling is groundbreaking.</p>
+                <p className="text-s">
+                  Learn more about why eDNA sampling is groundbreaking.
+                </p>
               </div>
             </div>
           </div>
@@ -200,19 +214,32 @@ const Home: React.FC = () => {
         <section className="section-container">
           <div className="content">
             <div className="title">
-              <p className="high">Murray–Darling Basin region now inviting volunteers</p>
+              <p className="high">
+                Murray–Darling Basin region now inviting volunteers
+              </p>
             </div>
             <div className="row-items">
               <div className="article">
                 <p className="text-m">
-                  We are currently inviting citizen scientists to reserve their testing site. Thanks to the Murray–Darling Basin Authority (MDBA) we are offering the first 420 sites for FREE.
+                  We are currently inviting citizen scientists to reserve their
+                  testing site. Thanks to the Murray–Darling Basin Authority
+                  (MDBA) we are offering the first 420 sites for FREE.
                 </p>
                 <p className="text-s">
-                  Just so you know, it costs $400 per sampling site from beginning to data analysis and reporting, so this season of testing would not be possible without the generous support of the
-                  MDBA.
+                  Just so you know, it costs $400 per sampling site from
+                  beginning to data analysis and reporting, so this season of
+                  testing would not be possible without the generous support of
+                  the MDBA.
                 </p>
-                <p className="text-s">Visit our ‘Citizen Scientist’ section if you’d like to know more before reserving your site, otherwise scroll to the reservation map.</p>
-                <p className="text-s">Note: If you’re out of region but would like to be keep in the loop regarding future testing seasons, sign up here</p>
+                <p className="text-s">
+                  Visit our ‘Citizen Scientist’ section if you’d like to know
+                  more before reserving your site, otherwise scroll to the
+                  reservation map.
+                </p>
+                <p className="text-s">
+                  Note: If you’re out of region but would like to be keep in the
+                  loop regarding future testing seasons, sign up here
+                </p>
               </div>
               <div className="image">
                 <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png" />
@@ -220,12 +247,16 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
-        <section className="section-container" style={{ background: "#EBEAD5" }}>
+        <section
+          className="section-container"
+          style={{ background: "#EBEAD5" }}>
           <div className="content">
             <div className="title">
               <p className="high">Reserve your testing site</p>
               <p className="normal">
-                Simply use the map to reserve your preferred testing location. You will receive a confirmation email with all the details, including when test kits will be distributed and what happens
+                Simply use the map to reserve your preferred testing location.
+                You will receive a confirmation email with all the details,
+                including when test kits will be distributed and what happens
                 next.
               </p>
             </div>
@@ -233,7 +264,10 @@ const Home: React.FC = () => {
               {!isLoaded ? (
                 <div>Loading...</div>
               ) : (
-                <GoogleMap mapContainerClassName="map" center={center} zoom={10}>
+                <GoogleMap
+                  mapContainerClassName="map"
+                  center={center}
+                  zoom={10}>
                   {markers.map((marker: any, index: number) => {
                     // console.log(marker)
                     return (
@@ -276,7 +310,9 @@ const Home: React.FC = () => {
                           fontSize: "13px",
                           marginTop: "8px",
                         }}>
-                        {selectedSite.waterway === "" ? "No Waterway" : selectedSite.waterway}
+                        {selectedSite.waterway === ""
+                          ? "No Waterway"
+                          : selectedSite.waterway}
                       </p>
                       <div className="grid">
                         <div>
@@ -301,7 +337,9 @@ const Home: React.FC = () => {
                             }}>
                             {"Lng:" + " " + selectedSite.lng}
                           </p>
-                          <p className="con">100 Nort St, Jilltown, New South Wales</p>
+                          <p className="con">
+                            100 Nort St, Jilltown, New South Wales
+                          </p>
                         </div>
                         <div>
                           <p className="tit">Site ID</p>
@@ -356,7 +394,8 @@ const Home: React.FC = () => {
                               type="text"
                               placeholder="Address"
                               onChange={(e) => {
-                                reservationFormRef.current.address = e.target.value;
+                                reservationFormRef.current.address =
+                                  e.target.value;
                               }}
                             />
                           </div>
@@ -380,7 +419,8 @@ const Home: React.FC = () => {
                                 type="text"
                                 placeholder="City"
                                 onChange={(e) => {
-                                  reservationFormRef.current.city = e.target.value;
+                                  reservationFormRef.current.city =
+                                    e.target.value;
                                 }}
                               />
                             </div>
@@ -397,7 +437,8 @@ const Home: React.FC = () => {
                                 type="text"
                                 placeholder="Postcode"
                                 onChange={(e) => {
-                                  reservationFormRef.current.postcode = e.target.value;
+                                  reservationFormRef.current.postcode =
+                                    e.target.value;
                                 }}
                               />
                             </div>
@@ -415,12 +456,18 @@ const Home: React.FC = () => {
                                 marginTop: "16px",
                               }}
                               onClick={() => {
-                                reservationFormRef.current.site_id = selectedSite.site_id;
-                                reservationCreateApi(reservationFormRef.current).then((res) => {
-                                  enqueueSnackbar("Your reservation has been sent successfully!", {
-                                    variant: "success",
-                                    autoHideDuration: 2000,
-                                  });
+                                reservationFormRef.current.site_id =
+                                  selectedSite.site_id;
+                                reservationCreateApi(
+                                  reservationFormRef.current
+                                ).then((res) => {
+                                  enqueueSnackbar(
+                                    "Your reservation has been sent successfully!",
+                                    {
+                                      variant: "success",
+                                      autoHideDuration: 2000,
+                                    }
+                                  );
                                   setIsReservationOpen(false);
                                 });
                               }}>
@@ -435,7 +482,10 @@ const Home: React.FC = () => {
               </div>
               <div id="reservation-form"></div>
             </div>
-            <p style={{ marginTop: "22px" }}>Water sampling can take place anytime between 16 October – 27 November 2023</p>
+            <p style={{ marginTop: "22px" }}>
+              Water sampling can take place anytime between 16 October – 27
+              November 2023
+            </p>
           </div>
         </section>
         <div id="roll1_top"></div>
@@ -508,10 +558,13 @@ const Home: React.FC = () => {
                 className="submit"
                 onClick={() => {
                   contactCreateApi(contactRef.current).then((res) => {
-                    enqueueSnackbar("Your message has been sent successfully!", {
-                      variant: "success",
-                      autoHideDuration: 2000,
-                    });
+                    enqueueSnackbar(
+                      "Your message has been sent successfully!",
+                      {
+                        variant: "success",
+                        autoHideDuration: 2000,
+                      }
+                    );
                   });
                 }}>
                 Send message
@@ -524,8 +577,10 @@ const Home: React.FC = () => {
         <div className="content">
           <div className="left">
             <p className="text-m" style={{ marginBottom: "16px" }}>
-              The Great Australian Wildlife Search is a program of the Odonata Foundation, thanks to the generous support of the Murray–Darling Basin Authority. All donations of $2 or more are
-              tax-deductible in Australia.
+              The Great Australian Wildlife Search is a program of the Odonata
+              Foundation, thanks to the generous support of the Murray–Darling
+              Basin Authority. All donations of $2 or more are tax-deductible in
+              Australia.
             </p>
             <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
               The Great Australian Wildlife Search is delivered by
@@ -541,8 +596,9 @@ const Home: React.FC = () => {
               <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/EnviroDNA-blue-1.png" />
             </div>
             <p className="text-s" style={{ margin: "30px 0 16px 0" }}>
-              We acknowledge the Indigenous people of Australia as the Traditional Custodians of the lands where we live, learn and work. We pay our respects to their Elders past, present and
-              emerging.
+              We acknowledge the Indigenous people of Australia as the
+              Traditional Custodians of the lands where we live, learn and work.
+              We pay our respects to their Elders past, present and emerging.
             </p>
           </div>
           <div className="right">
@@ -563,7 +619,9 @@ const Home: React.FC = () => {
       <div className="footer">
         <div className="content">
           <div className="site-info">
-            <p className="text">© 2023 Odonata Foundation. All rights reserved.</p>
+            <p className="text">
+              © 2023 Odonata Foundation. All rights reserved.
+            </p>
             <div className="icons">
               <a className="each">
                 <img src={facebookSVG} />
@@ -579,8 +637,16 @@ const Home: React.FC = () => {
         </div>
       </div>
       {/* <ReservationModal siteId={siteId} open={isReservationOpen} onClose={() => setIsReservationOpen(false)}></ReservationModal> */}
-      <LoginModal open={isLoginOpen} login={login} setLogin={setLogin} setCurrentUser={setCurrentUser} onClose={() => setIsLoginOpen(false)}></LoginModal>
-      <SampleModal open={isSampleOpen} sites={markers} onClose={() => setIsSampleOpen(false)}></SampleModal>
+      <LoginModal
+        open={isLoginOpen}
+        login={login}
+        setLogin={setLogin}
+        setCurrentUser={setCurrentUser}
+        onClose={() => setIsLoginOpen(false)}></LoginModal>
+      <SampleModal
+        open={isSampleOpen}
+        sites={markers}
+        onClose={() => setIsSampleOpen(false)}></SampleModal>
     </Container>
   );
 };

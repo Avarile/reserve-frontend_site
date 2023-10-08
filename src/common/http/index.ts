@@ -8,7 +8,7 @@ const _http = axios.create({
 _http.interceptors.request.use(
   (config) => {
     let token = sessionStorage.getItem("ACCESS_TOKEN");
-    if (token&&config.method!='put') {
+    if (token && config.method != "put") {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -20,10 +20,12 @@ _http.interceptors.request.use(
 
 _http.interceptors.response.use(
   (response) => {
+    debugger;
     return response.data;
   },
   (err) => {
-    notify.error(err.response.data.message[0]||'error')
+    notify.error(err.response.data.message[0] || "error");
+    return Promise.reject(err)
   }
 );
 
