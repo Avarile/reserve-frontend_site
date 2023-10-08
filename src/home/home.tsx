@@ -120,7 +120,7 @@ const Home: React.FC = () => {
       .catch((error: AxiosError) => {
         console.log(error);
       });
-  }, [login]);
+  }, [login, currentUser]);
 
   const markers = useMemo(() => {
     return sites.map((site: ISite) => {
@@ -580,7 +580,7 @@ const Home: React.FC = () => {
       </div>
       {/* <ReservationModal siteId={siteId} open={isReservationOpen} onClose={() => setIsReservationOpen(false)}></ReservationModal> */}
       <LoginModal open={isLoginOpen} login={login} setLogin={setLogin} setCurrentUser={setCurrentUser} onClose={() => setIsLoginOpen(false)}></LoginModal>
-      <SampleModal open={isSampleOpen} sites={markers} onClose={() => setIsSampleOpen(false)}></SampleModal>
+      <SampleModal open={isSampleOpen} sites={markers} setIsSampleOpen={setIsSampleOpen} onClose={() => setIsSampleOpen(false)}></SampleModal>
     </Container>
   );
 };

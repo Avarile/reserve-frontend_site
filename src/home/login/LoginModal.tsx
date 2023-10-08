@@ -60,12 +60,11 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
     loginApi(loginFormRef.current)
       .then((res) => {
         props.onClose && props.onClose();
-
         sessionStorage.setItem("ACCESS_TOKEN", res.data.content);
       })
       .then(() => {
         getCurrentUserApi().then((res) => {
-          sessionStorage.setItem("USER", JSON.stringify(res.data.content[0]));
+          sessionStorage.setItem("USER", JSON.stringify(res.data.content));
           props.setCurrentUser(res.data.content[0]);
         });
 
