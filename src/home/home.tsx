@@ -1,16 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
 import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import facebookSVG from "../assets/facebook.svg";
 import instagramSVG from "../assets/instagram.svg";
 import twitterSVG from "../assets/twitter.svg";
-import Container from "./home.style";
+import { http } from "../common/http";
 import { ISite } from "../interfaces";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import Container from "./home.style";
 import LoginModal from "./login/LoginModal";
 import SampleModal from "./sample/SampleModal";
-import ReservationModal from "./reservation/SampleModal";
-import { useSnackbar } from "notistack";
-import { http } from "../common/http";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
@@ -107,15 +105,15 @@ const Home: React.FC = () => {
   });
 
   useEffect(() => {
-    // const current_user_session = window.sessionStorage.getItem("USER");
-    // if (current_user_session) {
-    //   setLogin(true);
-    //   setCurrentUser(JSON.parse(current_user_session));
-    // }
+    let a = sessionStorage.getItem("USER");
+    debugger;
+  }, []);
 
-    login&&sitesApi().then((res) => {
-      setSites(res.data.content);
-    });
+  useEffect(() => {
+    login &&
+      sitesApi().then((res) => {
+        setSites(res.data.content);
+      });
   }, [login]);
 
   const markers = useMemo(() => {
@@ -372,34 +370,11 @@ const Home: React.FC = () => {
                         Reserve
                       </button>
                     ) : (
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "475px",
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "16px",
-                        }}>
-                        <h4>Shipping Address</h4>
-                        <div className="input-area">
-                          <div className="form-item">
-                            <p
-                              style={{
-                                fontSize: "13px",
-                                fontWeight: "bold",
-                              }}>
-                              Address
-                            </p>
-                            <input
-                              type="text"
-                              placeholder="Address"
-                              onChange={(e) => {
-                                reservationFormRef.current.address =
-                                  e.target.value;
-                              }}
-                            />
-                          </div>
-                        </div>
+                      <div className="input-content">
+                        <h4 style={{
+                          marginTop:20,
+                          marginBottom:20
+                        }}>Shipping Address</h4>
                         <div
                           id="name-postcode"
                           style={{
@@ -407,7 +382,24 @@ const Home: React.FC = () => {
                             flexDirection: "column",
                           }}>
                           <div className="input-area">
-                            <div className="form-item" style={{ width: "40%" }}>
+                            <div className="form-item">
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                }}>
+                                Address
+                              </p>
+                              <input
+                                type="text"
+                                placeholder="Address"
+                                onChange={(e) => {
+                                  reservationFormRef.current.address =
+                                    e.target.value;
+                                }}
+                              />
+                            </div>
+                            <div className="form-item">
                               <p
                                 style={{
                                   fontSize: "13px",
@@ -425,7 +417,7 @@ const Home: React.FC = () => {
                               />
                             </div>
 
-                            <div className="form-item" style={{ width: "40%" }}>
+                            <div className="form-item">
                               <p
                                 style={{
                                   fontSize: "13px",
@@ -637,8 +629,17 @@ const Home: React.FC = () => {
         </div>
       </div>
       {/* <ReservationModal siteId={siteId} open={isReservationOpen} onClose={() => setIsReservationOpen(false)}></ReservationModal> */}
-      <LoginModal open={isLoginOpen} login={login} setLogin={setLogin} setCurrentUser={setCurrentUser} onClose={() => setIsLoginOpen(false)}></LoginModal>
-      <SampleModal open={isSampleOpen} sites={markers} setIsSampleOpen={setIsSampleOpen} onClose={() => setIsSampleOpen(false)}></SampleModal>
+      <LoginModal
+        open={isLoginOpen}
+        login={login}
+        setLogin={setLogin}
+        setCurrentUser={setCurrentUser}
+        onClose={() => setIsLoginOpen(false)}></LoginModal>
+      <SampleModal
+        open={isSampleOpen}
+        sites={markers}
+        setIsSampleOpen={setIsSampleOpen}
+        onClose={() => setIsSampleOpen(false)}></SampleModal>
     </Container>
   );
 };

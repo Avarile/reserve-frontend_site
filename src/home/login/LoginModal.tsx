@@ -71,9 +71,10 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
       })
       .then(() => {
         getCurrentUserApi().then((res) => {
+          debugger
           sessionStorage.setItem(
             "USER",
-            res.data.content[0] ? JSON.stringify(res.data.content[0]) : ""
+            res.data.content ? JSON.stringify(res.data.content) : ""
           );
           props.setCurrentUser(res.data.content);
         });
