@@ -79,16 +79,10 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
   };
 
   return (
-    <Modal
-      open={props.open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      onClose={() => props.onClose && props.onClose()}>
+    <Modal open={props.open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" onClose={() => props.onClose && props.onClose()}>
       <Container>
         <div className="title">Login to your account</div>
-        <div className="sub-title">
-          Welcome back! Please enter your details.
-        </div>
+        <div className="sub-title">Welcome back! Please enter your details.</div>
         <div className="each-frame">
           <SampleStep1
             formData={{
