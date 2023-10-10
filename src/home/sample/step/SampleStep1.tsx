@@ -79,7 +79,7 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
               setSite(e.target.value as string);
             }}>
             {props.sites.map((site) => {
-              return <MenuItem value={site.site_id}>{site.site_id}</MenuItem>;
+              return <MenuItem value={parseInt(site.site_id)}>{site.site_id}</MenuItem>;
             })}
           </Select>
         </div>
