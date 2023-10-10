@@ -471,7 +471,7 @@ const Home: React.FC = () => {
                             {"Lng:" + " " + selectedSite.lng}
                           </p>
                           <p className="con">
-                            100 Nort St, Jilltown, New South Wales
+                            { selectedSite.state}
                           </p>
                         </div>
                         <div>
