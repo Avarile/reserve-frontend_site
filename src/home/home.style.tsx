@@ -1,8 +1,8 @@
-import { Box, styled } from "@mui/material";
+import {Box, styled} from "@mui/material";
 
 const Container = styled((props: any) => {
   return <Box {...props}></Box>;
-})(({ theme }) => ({
+})(({theme}) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",

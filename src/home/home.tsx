@@ -141,6 +141,17 @@ const Home: React.FC = () => {
     });
   }, [login]);
 
+  useEffect(() => {
+    if (searchSiteParams && searchSiteParams?.length === 4) {
+      postcodeApi(searchSiteParams).then((res) => {
+        setSitesSearched(res.data.content)
+        setSelectedSite(null)
+      })
+    } else {
+      setSitesSearched([])
+    }
+  }, [searchSiteParams]);
+
   const markers = useMemo(() => {
     return sites.map((site: ISite) => {
       return {
@@ -444,13 +455,101 @@ const Home: React.FC = () => {
                 </GoogleMap>
               )}
               <div className="form">
-                <Autocomplete id={"postcode search"} freeSolo sx={{width: "100%"}} renderInput={(params) => {
-                  if (params.inputProps.value !== undefined) {
-                    setSearchSiteParams(params.inputProps.value.toString())
-                    console.log(params.inputProps.value)
-                    return <TextField {...params} label={"Site"}/>
-                  }
-                }} options={sitesSearched}/>
+                <Autocomplete
+                  id={"postcode search"}
+                  freeSolo sx={{width: "100%"}}
+                  renderInput={(params) => {
+                    if (params.inputProps.value !== undefined) {
+                      setSearchSiteParams(params.inputProps.value.toString())
+                      return <TextField {...params} label={"Site"}/>
+                    }
+                  }}
+                  options={sitesSearched}
+                  disableClearable
+                />
+                {
+                  selectedSite === null && sitesSearched.length > 0 && sitesSearched.map((site: any, index: number) => {
+                    return (
+                      <div key={site.id} onClick={() => {
+                        setSelectedSite(site)
+                      }}>
+                        <div className="card" style={{
+                          padding: "12px 16px 16px 20px",
+                          background: "#FFFFFF",
+                          border: "1.5px solid #565656",
+                          borderRadius: "12px",
+                        }}>
+                          <p
+                            className="name"
+                            style={{
+                              fontSize: "20px",
+                              color: "#6D6D1F",
+                              lineHeight: "32px",
+                            }}>
+                            {site.city}
+                          </p>
+                          <p
+                            className="location"
+                            style={{
+                              fontSize: "12px",
+                              color: "#332820",
+                              marginBottom: "10px",
+                            }}>
+                            {site.waterway === ""
+                              ? "No Waterway"
+                              : site.waterway}
+                          </p>
+                          <div className="grid" style={{
+                            display: "grid",
+                            gridTemplateColumns: "3fr 1fr",
+                          }}>
+                            <div>
+                              <p
+                                className="tit"
+                                style={{
+                                  fontSize: "12px",
+                                  color: "#332820",
+                                  lineHeight: "20px",
+                                }}>
+                                {"Location:"}
+                              </p>
+                              <p
+                                className="tit"
+                                style={{
+                                  fontSize: "12px",
+                                  color: "#332820",
+                                  lineHeight: "20px",
+                                }}>
+                                {"Lat:" + " " + site.lat}
+                              </p>
+                              <p
+                                className="tit"
+                                style={{
+                                  fontSize: "12px",
+                                  color: "#332820",
+                                  lineHeight: "20px",
+                                }}>
+                                {"Lng:" + " " + site.lng}
+                              </p>
+                              <p className="con" style={{
+                                fontSize: "12px",
+                                color: "#755F43",
+                                lineHeight: "20px",
+                              }}>
+                                {site.state}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="tit">Site ID</p>
+                              <p className="con">{site.site_id}</p>
+                            </div>
+                          </div>
+                          {" "}
+                        </div>
+                      </div>
+                    )
+                  })
+                }
                 {selectedSite && (
                   <>
                     <div className="card">
