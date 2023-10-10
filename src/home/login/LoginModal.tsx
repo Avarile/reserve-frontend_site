@@ -5,6 +5,7 @@ import Container from "./LoginModal.style";
 import LoginForm from "./form/LoginForm";
 import RegisterForm from "./form/RegisterForm";
 import { useSnackbar } from "notistack";
+import { useResponsive } from "../../common/use-responsive";
 
 function loginApi(params: { email: string; password: string }) {
   return http.request({
@@ -71,7 +72,7 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
       })
       .then(() => {
         getCurrentUserApi().then((res) => {
-          debugger
+          debugger;
           sessionStorage.setItem(
             "USER",
             res.data.content ? JSON.stringify(res.data.content) : ""
@@ -94,14 +95,14 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
       setType("login");
     });
   };
-
+  const lgUp = useResponsive("up", "lg");
   return (
     <Modal
       open={props.open}
       onClose={() => props.onClose && props.onClose()}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <Container>
+      <Container lgUp={lgUp}>
         <div className="logo">
           <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
         </div>

@@ -9,10 +9,16 @@ import { ISite } from "../interfaces";
 import Container from "./home.style";
 import LoginModal from "./login/LoginModal";
 import SampleModal from "./sample/SampleModal";
+import { useResponsive } from "../common/use-responsive";
+import Iconify from "../common/iconify";
+import { IconButton } from "@mui/material";
+import Box from "@mui/material/Box";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
-
+function handleStopWheel(e: any) {
+  e.preventDefault();
+}
 export type ReservationFormRef = {
   address: string;
   city: string;
@@ -82,7 +88,7 @@ const Home: React.FC = () => {
   const center = useMemo(() => ({ lat: -25.363, lng: 131.044 }), []);
   const [sites, setSites] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+  const [isShowMenu, setIsShowMenu] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSampleOpen, setIsSampleOpen] = useState(false);
   const [isReservationOpen, setIsReservationOpen] = useState(false);
@@ -106,7 +112,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     let a = sessionStorage.getItem("USER");
-    debugger;
   }, []);
 
   useEffect(() => {
@@ -131,60 +136,172 @@ const Home: React.FC = () => {
       };
     });
   }, [sites]);
-
+  const lgUp = useResponsive("up", "lg");
   return (
     <Container>
       <div className="header-wrapper">
-        <div className="header">
+        <div
+          className="header"
+          style={
+            !lgUp
+              ? {
+                  padding: "9px 16px",
+                }
+              : {}
+          }>
           <img
-            className="logo"
+            className={"logo"}
             src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg"
           />
-          <div className="navigation">
-            <a className="text">Reserve testing site</a>
-            <a className="text">FAQ</a>
-            <a
-              onClick={() => {
-                document.getElementById("roll1_top")!.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
-              className="text">
-              Contact
-            </a>
-            <a
-              className="button"
-              onClick={() => {
-                !login && setIsLoginOpen(true);
-              }}>
-              {login && currentUser ? currentUser?.name : "Login / Signup"}
-            </a>
-          </div>
+          {lgUp ? (
+            <div className="navigation">
+              <a className="text">Reserve testing site</a>
+              <a className="text">FAQ</a>
+              <a
+                onClick={() => {
+                  document.getElementById("roll1_top")!.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
+                className="text">
+                Contact
+              </a>
+              <a
+                className="button"
+                onClick={() => {
+                  !login && setIsLoginOpen(true);
+                }}>
+                {login && currentUser ? currentUser?.name : "Login / Signup"}
+              </a>
+            </div>
+          ) : (
+            <>
+              <IconButton
+                onClick={() => {
+                  setIsShowMenu(true);
+                  window.addEventListener("wheel", handleStopWheel, {
+                    passive: false,
+                  });
+                }}
+                style={{
+                  position: "absolute",
+                  right: 20,
+                }}>
+                <Iconify icon={"material-symbols:menu"} width={34} />
+              </IconButton>
+              {isShowMenu && (
+                <div
+                  style={{
+                    position: "fixed",
+                    width: "100vw",
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: "white",
+                    zIndex: 100,
+                  }}>
+                  <IconButton
+                    onClick={() => {
+                      setIsShowMenu(false);
+                      window.removeEventListener("wheel", handleStopWheel);
+                    }}
+                    style={{
+                      position: "absolute",
+                      top: 60,
+                      right: 20,
+                      zIndex: 111,
+                    }}>
+                    <Iconify icon="ic:outline-close" width={34} />
+                  </IconButton>
+                  <div
+                    style={{
+                      width: "100vw",
+                      position: "absolute",
+                      top: 160,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      height: "calc(100vh - 400px)",
+                      justifyContent: "space-around",
+                    }}>
+                    <div className="btnLabel">Reserve testing site</div>
+                    <div className="btnLabel">FAQ</div>
+                    <div className="btnLabel">Contact</div>
+                    <div className="loginBtnInfo">
+                      <a
+                        onClick={() => {
+                          setIsLoginOpen(true);
+                          setIsShowMenu(false);
+                          window.addEventListener("wheel", handleStopWheel, {
+                            passive: false,
+                          });
+                        }}
+                        className={`each leftMd`}>
+                        {login && currentUser
+                          ? currentUser?.name
+                          : "Login / Signup"}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
       <div className="content-area">
         <section className="banner">
           <img
-            className="image"
+            className={lgUp ? "image" : "imageMb"}
             src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/bannerImage.png"
           />
-          <div className="content">
-            <p className="title">Join the Great Australian Wildlife Search</p>
-            <p className="paragraph">
+          <div
+            className="content"
+            style={
+              !lgUp
+                ? {
+                    width: "100vw",
+                  }
+                : {}
+            }>
+            {lgUp ? (
+              <p className="title">Join the Great Australian Wildlife Search</p>
+            ) : (
+              <div>
+                <div className="titleMd">Join the Great </div>
+                <div className="titleMd">Australian </div>
+                <div className="titleMd">Wildlife Search</div>
+              </div>
+            )}
+            <p className={lgUp ? "paragraph" : "paragraphMd"}>
               A revolution in wildlife mapping and conservation, delivered by
               Odonata Foundation
             </p>
-            <div className="buttons">
-              <a className="each left">Volunteer now</a>
-              <a className="each right">Learn more</a>
-            </div>
+            {lgUp ? (
+              <div className="buttons">
+                <a className="each left">Volunteer now</a>
+                <a className="each right">Learn more</a>
+              </div>
+            ) : (
+              <>
+                <div className="buttons">
+                  <a className={`each ${lgUp ? "left" : "leftMd"}`}>
+                    Volunteer now
+                  </a>
+                </div>
+                <div className="buttons">
+                  <a className="each right">Learn more</a>
+                </div>
+              </>
+            )}
           </div>
         </section>
         <section
           className="section-container"
           style={{ background: "#EBEAD5" }}>
           <div className="content">
-            <div className="row-items">
+            <div className={lgUp ? "row-items" : "row-items-md"}>
               <div className="image">
                 <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo.png" />
               </div>
@@ -192,8 +309,14 @@ const Home: React.FC = () => {
                 <p className="text-l">
                   Imagine you could identify where threatened species live by
                   collecting just a few samples of water… thanks to new
-                  environmental DNA (eDNA) technology this is now a reality, and
-                  we need you!
+                  environmental DNA (eDNA) technology this is now a reality,
+                </p>
+                <p
+                  className="text-l"
+                  style={{
+                    fontWeight: "bold",
+                  }}>
+                  and we need you!
                 </p>
                 <p className="text-s">
                   By knowing where our precious wildlife live, like the platypus
@@ -209,14 +332,15 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
-        <section className="section-container">
+        <section
+          className={lgUp ? "section-container" : "section-container-mb"}>
           <div className="content">
             <div className="title">
               <p className="high">
                 Murray–Darling Basin region now inviting volunteers
               </p>
             </div>
-            <div className="row-items">
+            <div className={lgUp ? "row-items" : "row-items-md"}>
               <div className="article">
                 <p className="text-m">
                   We are currently inviting citizen scientists to reserve their
@@ -240,13 +364,24 @@ const Home: React.FC = () => {
                 </p>
               </div>
               <div className="image">
-                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png" />
+                <img
+                  style={
+                    !lgUp
+                      ? {
+                          objectFit: "cover",
+                          borderRadius: "12px",
+                          height: "456px",
+                        }
+                      : {}
+                  }
+                  src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png"
+                />
               </div>
             </div>
           </div>
         </section>
         <section
-          className="section-container"
+          className={lgUp ? "section-container" : "section-container-mb"}
           style={{ background: "#EBEAD5" }}>
           <div className="content">
             <div className="title">
@@ -258,7 +393,7 @@ const Home: React.FC = () => {
                 next.
               </p>
             </div>
-            <div className="map-area">
+            <div className={lgUp ? "map-area" : "map-area-mb"}>
               {!isLoaded ? (
                 <div>Loading...</div>
               ) : (
@@ -371,10 +506,13 @@ const Home: React.FC = () => {
                       </button>
                     ) : (
                       <div className="input-content">
-                        <h4 style={{
-                          marginTop:20,
-                          marginBottom:20
-                        }}>Shipping Address</h4>
+                        <h4
+                          style={{
+                            marginTop: 20,
+                            marginBottom: 20,
+                          }}>
+                          Shipping Address
+                        </h4>
                         <div
                           id="name-postcode"
                           style={{
@@ -481,7 +619,8 @@ const Home: React.FC = () => {
           </div>
         </section>
         <div id="roll1_top"></div>
-        <section className="section-container">
+        <section
+          className={lgUp ? "section-container" : "section-container-mb"}>
           <div className="content">
             <div className="title">
               <p className="high">Get in touch</p>
@@ -490,7 +629,7 @@ const Home: React.FC = () => {
               </p>
             </div>
             <div className="input-area">
-              <div className="name-wrapper">
+              <div>
                 <div className="form-item">
                   <label>First name</label>
                   <input
@@ -565,7 +704,7 @@ const Home: React.FC = () => {
           </div>
         </section>
       </div>
-      <div className="aside-area">
+      <div className={lgUp ? "aside-area" : "aside-area-mb"}>
         <div className="content">
           <div className="left">
             <p className="text-m" style={{ marginBottom: "16px" }}>
