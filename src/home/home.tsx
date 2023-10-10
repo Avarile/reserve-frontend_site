@@ -1,17 +1,18 @@
-import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
-import { useSnackbar } from "notistack";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import {GoogleMap, MarkerF, useLoadScript} from "@react-google-maps/api";
+import {useSnackbar} from "notistack";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import facebookSVG from "../assets/facebook.svg";
 import instagramSVG from "../assets/instagram.svg";
 import twitterSVG from "../assets/twitter.svg";
-import { http } from "../common/http";
-import { ISite } from "../interfaces";
+import {http} from "../common/http";
+import {ISite} from "../interfaces";
 import Container from "./home.style";
 import LoginModal from "./login/LoginModal";
 import SampleModal from "./sample/SampleModal";
-import { useResponsive } from "../common/use-responsive";
+import {useResponsive} from "../common/use-responsive";
 import Iconify from "../common/iconify";
-import { IconButton } from "@mui/material";
+import {IconButton, TextField} from "@mui/material";
+import {Autocomplete} from "@mui/material";
 import Box from "@mui/material/Box";
 
 // const current_user = window.sessionStorage.getItem("USER");
@@ -19,6 +20,7 @@ import Box from "@mui/material/Box";
 function handleStopWheel(e: any) {
   e.preventDefault();
 }
+
 export type ReservationFormRef = {
   address: string;
   city: string;
@@ -49,6 +51,7 @@ const testMarkers = [
     location: "test Site 3",
   },
 ];
+
 export interface Request {
   email: string;
   first_name: string;
@@ -56,12 +59,24 @@ export interface Request {
   message: string;
   phone: string;
 }
+
 function sitesApi() {
   return http.request({
     url: "/api/sites/query",
     method: "POST",
   });
 }
+
+function postcodeApi(params: string) {
+  return http.request({
+    url: "/api/sites/query",
+    method: "POST",
+    data: {
+      postcode: params,
+    },
+  });
+}
+
 function contactCreateApi(params: Request) {
   return http.request<{ data: any }>({
     url: "/api/contact/create",
@@ -79,21 +94,26 @@ function reservationCreateApi(params: ReservationFormRef) {
 }
 
 const Home: React.FC = () => {
-  const { isLoaded } = useLoadScript({
+  const {isLoaded} = useLoadScript({
     googleMapsApiKey: "AIzaSyC2UQBWd-kkALximl2gxxBxuVTJ9rE2b7w",
   });
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [login, setLogin] = useState(false);
 
-  const center = useMemo(() => ({ lat: -25.363, lng: 131.044 }), []);
+  const center = useMemo(() => ({lat: -25.363, lng: 131.044}), []);
   const [sites, setSites] = useState([]);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const [searchSiteParams, setSearchSiteParams] = useState<null | string>(null)
+  const [sitesSearched, setSitesSearched] = useState([]);
+
+  const {enqueueSnackbar, closeSnackbar} = useSnackbar();
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSampleOpen, setIsSampleOpen] = useState(false);
   const [isReservationOpen, setIsReservationOpen] = useState(false);
   const [selectedSite, setSelectedSite] = useState<ISite | null>(null);
   const [siteId, setSiteId] = useState(0);
+
   // cantact
   const contactRef = useRef<Request>({
     email: "",
@@ -116,9 +136,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     login &&
-      sitesApi().then((res) => {
-        setSites(res.data.content);
-      });
+    sitesApi().then((res) => {
+      setSites(res.data.content);
+    });
   }, [login]);
 
   const markers = useMemo(() => {
@@ -136,6 +156,7 @@ const Home: React.FC = () => {
       };
     });
   }, [sites]);
+
   const lgUp = useResponsive("up", "lg");
   return (
     <Container>
@@ -145,8 +166,8 @@ const Home: React.FC = () => {
           style={
             !lgUp
               ? {
-                  padding: "9px 16px",
-                }
+                padding: "9px 16px",
+              }
               : {}
           }>
           <img
@@ -187,7 +208,7 @@ const Home: React.FC = () => {
                   position: "absolute",
                   right: 20,
                 }}>
-                <Iconify icon={"material-symbols:menu"} width={34} />
+                <Iconify icon={"material-symbols:menu"} width={34}/>
               </IconButton>
               {isShowMenu && (
                 <div
@@ -212,7 +233,7 @@ const Home: React.FC = () => {
                       right: 20,
                       zIndex: 111,
                     }}>
-                    <Iconify icon="ic:outline-close" width={34} />
+                    <Iconify icon="ic:outline-close" width={34}/>
                   </IconButton>
                   <div
                     style={{
@@ -261,16 +282,16 @@ const Home: React.FC = () => {
             style={
               !lgUp
                 ? {
-                    width: "100vw",
-                  }
+                  width: "100vw",
+                }
                 : {}
             }>
             {lgUp ? (
               <p className="title">Join the Great Australian Wildlife Search</p>
             ) : (
               <div>
-                <div className="titleMd">Join the Great </div>
-                <div className="titleMd">Australian </div>
+                <div className="titleMd">Join the Great</div>
+                <div className="titleMd">Australian</div>
                 <div className="titleMd">Wildlife Search</div>
               </div>
             )}
@@ -299,11 +320,11 @@ const Home: React.FC = () => {
         </section>
         <section
           className="section-container"
-          style={{ background: "#EBEAD5" }}>
+          style={{background: "#EBEAD5"}}>
           <div className="content">
             <div className={lgUp ? "row-items" : "row-items-md"}>
               <div className="image">
-                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo.png" />
+                <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo.png"/>
               </div>
               <div className="article">
                 <p className="text-l">
@@ -368,10 +389,10 @@ const Home: React.FC = () => {
                   style={
                     !lgUp
                       ? {
-                          objectFit: "cover",
-                          borderRadius: "12px",
-                          height: "456px",
-                        }
+                        objectFit: "cover",
+                        borderRadius: "12px",
+                        height: "456px",
+                      }
                       : {}
                   }
                   src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/demo2.png"
@@ -382,7 +403,7 @@ const Home: React.FC = () => {
         </section>
         <section
           className={lgUp ? "section-container" : "section-container-mb"}
-          style={{ background: "#EBEAD5" }}>
+          style={{background: "#EBEAD5"}}>
           <div className="content">
             <div className="title">
               <p className="high">Reserve your testing site</p>
@@ -406,7 +427,7 @@ const Home: React.FC = () => {
                     return (
                       <MarkerF
                         key={index}
-                        position={{ lat: marker.lat, lng: marker.lng }}
+                        position={{lat: marker.lat, lng: marker.lng}}
                         onClick={() => {
                           // 没登陆，弹出登陆
                           if (!login) {
@@ -423,9 +444,13 @@ const Home: React.FC = () => {
                 </GoogleMap>
               )}
               <div className="form">
-                {/* <div className="search">
-                  <input type="text" placeholder="Search by postcode or suburb" />
-                </div> */}
+                <Autocomplete id={"postcode search"} freeSolo sx={{width: "100%"}} renderInput={(params) => {
+                  if (params.inputProps.value !== undefined) {
+                    setSearchSiteParams(params.inputProps.value.toString())
+                    console.log(params.inputProps.value)
+                    return <TextField {...params} label={"Site"}/>
+                  }
+                }} options={sitesSearched}/>
                 {selectedSite && (
                   <>
                     <div className="card">
@@ -471,14 +496,15 @@ const Home: React.FC = () => {
                             {"Lng:" + " " + selectedSite.lng}
                           </p>
                           <p className="con">
-                            { selectedSite.state}
+                            {selectedSite.state}
                           </p>
                         </div>
                         <div>
                           <p className="tit">Site ID</p>
                           <p className="con">{selectedSite.site_id}</p>
                         </div>
-                      </div>{" "}
+                      </div>
+                      {" "}
                     </div>
                     {isReservationOpen === false ? (
                       <button
@@ -612,7 +638,7 @@ const Home: React.FC = () => {
               </div>
               <div id="reservation-form"></div>
             </div>
-            <p style={{ marginTop: "22px" }}>
+            <p style={{marginTop: "22px"}}>
               Water sampling can take place anytime between 16 October – 27
               November 2023
             </p>
@@ -624,7 +650,7 @@ const Home: React.FC = () => {
           <div className="content">
             <div className="title">
               <p className="high">Get in touch</p>
-              <p className="normal" style={{ color: "#6D6D1F" }}>
+              <p className="normal" style={{color: "#6D6D1F"}}>
                 Our friendly team would love to hear from you.
               </p>
             </div>
@@ -682,7 +708,7 @@ const Home: React.FC = () => {
                   cols={50}></textarea>
               </div>
               <div className="form-check">
-                <input type="checkbox" />
+                <input type="checkbox"/>
                 <label>You agree to our privacy policy.</label>
               </div>
               <button
@@ -707,26 +733,26 @@ const Home: React.FC = () => {
       <div className={lgUp ? "aside-area" : "aside-area-mb"}>
         <div className="content">
           <div className="left">
-            <p className="text-m" style={{ marginBottom: "16px" }}>
+            <p className="text-m" style={{marginBottom: "16px"}}>
               The Great Australian Wildlife Search is a program of the Odonata
               Foundation, thanks to the generous support of the Murray–Darling
               Basin Authority. All donations of $2 or more are tax-deductible in
               Australia.
             </p>
-            <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
+            <p className="text-m" style={{margin: "30px 0 16px 0"}}>
               The Great Australian Wildlife Search is delivered by
             </p>
             <div className="image-row">
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/footerLogo.png" />
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/footerLogo.png"/>
             </div>
-            <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
+            <p className="text-m" style={{margin: "30px 0 16px 0"}}>
               In partnership with
             </p>
             <div className="image-row">
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/MDBA-Logo-1-1.png" />
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/EnviroDNA-blue-1.png" />
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/MDBA-Logo-1-1.png"/>
+              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/EnviroDNA-blue-1.png"/>
             </div>
-            <p className="text-s" style={{ margin: "30px 0 16px 0" }}>
+            <p className="text-s" style={{margin: "30px 0 16px 0"}}>
               We acknowledge the Indigenous people of Australia as the
               Traditional Custodians of the lands where we live, learn and work.
               We pay our respects to their Elders past, present and emerging.
@@ -755,13 +781,13 @@ const Home: React.FC = () => {
             </p>
             <div className="icons">
               <a className="each">
-                <img src={facebookSVG} />
+                <img src={facebookSVG}/>
               </a>
               <a className="each">
-                <img src={instagramSVG} />
+                <img src={instagramSVG}/>
               </a>
               <a className="each">
-                <img src={twitterSVG} />
+                <img src={twitterSVG}/>
               </a>
             </div>
           </div>
