@@ -1,6 +1,7 @@
 import { DropzoneOptions } from 'react-dropzone';
 // @mui
 import { Theme, SxProps } from '@mui/material/styles';
+import { Pic } from '../home/sample/SampleModal';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +12,7 @@ export interface CustomFile extends File {
 }
 
 export interface UploadProps extends DropzoneOptions {
-  handleFileChange:(url:string)=>void;
+  handleFileChange:(url:Pic)=>void;
   error?: boolean;
   sx?: SxProps<Theme>;
   thumbnail?: boolean;

@@ -2,13 +2,13 @@ import {Checkbox} from "@mui/material";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Container from "../common/SampleStepContainer.style";
-import {Info, Submitter} from "../SampleModal";
+import {Info, Pic, Submitter} from "../SampleModal";
 import React, {useState} from "react";
 
 type SampleStep4PropsType = {
     className?: string;
     submitter: Submitter, // 阶段一
-    pic: string, // 阶段二
+    pic: Pic, // 阶段二
     info: Info, // 阶段三
 };
 

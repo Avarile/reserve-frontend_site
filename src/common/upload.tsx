@@ -17,6 +17,8 @@ import { UploadProps } from "./types";
 
 // ----------------------------------------------------------------------
 import { http } from "./http";
+import EXIF from "exif-js";
+
 export interface FileUploadApiRequest {
   content_type: string;
   file_name: string;
@@ -38,10 +40,10 @@ export enum FileType {
 }
 
 export interface FileUploadApiRespone {
-    // 资源路径
-    fileUrl: string;
-    // 上传路径
-    presignedUrl: string;
+  // 资源路径
+  fileUrl: string;
+  // 上传路径
+  presignedUrl: string;
 }
 function getUploadUrlApi(params: FileUploadApiRequest) {
   return http.request<{ content: FileUploadApiRespone }>({
@@ -80,11 +82,19 @@ export default function Upload({
     disabled,
     ...other,
   });
-  const [fileList,setFiles] = useState<string[]>([])
+  const [fileList, setFiles] = useState<string[]>([]);
+
+  const getExif = (file: File) => { 
+    const metadata = EXIF.getAllTags(file)
+    return metadata
+  }
 
   useEffect(() => {
     let file = acceptedFiles[0];
     if (!file) return;
+
+    const metadata = getExif(file)
+
     getUploadUrlApi({
       user_id: 1,
       site_id: "312",
@@ -95,10 +105,15 @@ export default function Upload({
       type: FileType.UserAvatar,
     }).then((res) => {
       console.log(res);
-      fileUploadApi(res.data.content.presignedUrl, file).then(()=>{
-        setFiles([res.data.content.fileUrl])
+      fileUploadApi(res.data.content.presignedUrl, file).then(() => {
+        setFiles([res.data.content.fileUrl]);
       });
-      handleFileChange(res.data.content.fileUrl);
+
+      handleFileChange({
+        url: res.data.content.fileUrl,
+        lat: metadata?.GPSLatitude || "N/A", 
+        lng: metadata?.GPSLongitude || "N/A",
+      });
     });
   }, [acceptedFiles]);
   const hasFile = !!file && !multiple;
@@ -179,7 +194,7 @@ export default function Upload({
           cursor: "pointer",
           overflow: "hidden",
           position: "relative",
-          height:280,
+          height: 280,
           bgcolor: (theme) => alpha(theme.palette.grey[500], 0.08),
           border: (theme) => `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
           transition: (theme) => theme.transitions.create(["opacity", "padding"]),
@@ -203,9 +218,11 @@ export default function Upload({
           }),
         }}>
         <input {...getInputProps()} />
-        {fileList.length ? fileList.map((item)=>{
-          return <SingleFilePreview imgUrl={item}></SingleFilePreview>
-        }) : renderPlaceholder}
+        {fileList.length
+          ? fileList.map((item) => {
+              return <SingleFilePreview imgUrl={item}></SingleFilePreview>;
+            })
+          : renderPlaceholder}
       </Box>
 
       {removeSinglePreview}

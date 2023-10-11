@@ -1,31 +1,45 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Upload from "../../../common/upload";
 import Container from "../common/SampleStepContainer.style";
+import { Pic } from "../SampleModal";
+import { Box, Typography } from "@mui/material";
 
 type SampleStep2PropsType = {
-    className?: string;
-    pic: {value: string, set: Dispatch<SetStateAction<string>>};
+  className?: string;
+  pic: { value: Pic; set: Dispatch<SetStateAction<Pic>> };
 };
 
 const PartnerStep1: React.ComponentType<SampleStep2PropsType> = (props) => {
-
-    return (
-        <Container className={props.className}>
-            <div className='text-area'>
-                <div className='title'>Upload and attach files *</div>
-                <div className='content'>
-                    Upload and attach photos of the location of sample.
-                    As well as a screenshot of your maps app location upon sampling.
-                </div>
-            </div>
-            <div className="input-area">
-                <Upload handleFileChange={(url: string) => {
-                    props.pic.set(url);
-                }}></Upload>
-            </div>
-        </Container>
-    );
-
+  return (
+    <Container className={props.className}>
+      <div className="text-area">
+        <div className="title">Upload and attach files *</div>
+        <div className="content">Upload and attach photos of the location of sample. As well as a screenshot of your maps app location upon sampling.</div>
+      </div>
+      <div className="input-area">
+        <Upload
+          handleFileChange={(pic: Pic) => {
+            props.pic.set(pic);
+          }}></Upload>
+      </div>
+      <Box>
+        {props.pic.value.lat === "N/A" ? (
+          <Typography variant="h6" color="text.secondary" fontFamily={"cursive"}>
+            Your photo does not contain any Geo information, please input the Lat in next step
+          </Typography>
+        ) : (
+          <>
+            <Typography variant="h6" color="text.secondary" fontFamily={"cursive"}>
+              lat: {props.pic.value.lat}
+            </Typography>
+            <Typography variant="h6" color="text.secondary" fontFamily={"cursive"}>
+              lng: {props.pic.value.lng}
+            </Typography>
+          </>
+        )}
+      </Box>
+    </Container>
+  );
 };
 
 export default PartnerStep1;
