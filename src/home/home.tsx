@@ -202,6 +202,11 @@ const Home: React.FC = () => {
           <img className={"logo"} src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
           {lgUp ? (
             <div className="navigation">
+              <a className="text">For Citizen Scientists</a>
+              <a className="text">Sponsor & Donate</a>
+              <a className="text">Join</a>
+              <a className="text">MDB</a>
+              <a className="text">About</a>
               <a className="text">Reserve testing site</a>
               <a className="text">FAQ</a>
               <a
@@ -272,6 +277,11 @@ const Home: React.FC = () => {
                       height: "calc(100vh - 400px)",
                       justifyContent: "space-around",
                     }}>
+                    <div className="btnLabel">For Citizen Scientists</div>
+                    <div className="btnLabel">Sponsor & Donate</div>
+                    <div className="btnLabel">Join</div>
+                    <div className="btnLabel">MDB</div>
+                    <div className="btnLabel">About</div>
                     <div className="btnLabel">Reserve testing site</div>
                     <div className="btnLabel">FAQ</div>
                     <div className="btnLabel">Contact</div>
@@ -324,8 +334,14 @@ const Home: React.FC = () => {
             <p className={lgUp ? "paragraph" : "paragraphMd"}>A revolution in wildlife mapping and conservation, delivered by Odonata Foundation</p>
             {lgUp ? (
               <div className="buttons">
-                <a className="each left">Volunteer now</a>
-                <a className="each right">Learn more</a>
+                <a
+                  className="each left"
+                  onClick={() => {
+                    setIsSampleOpen(true);
+                  }}>
+                  Submit Sample
+                </a>
+                <a className="each right">Contact Us</a>
               </div>
             ) : (
               <>
@@ -347,18 +363,12 @@ const Home: React.FC = () => {
               </div>
               <div className="article">
                 <p className="text-l">
-                  Imagine you could identify where threatened species live by collecting just a few samples of water… thanks to new environmental DNA (eDNA) technology this is now a reality,
-                </p>
-                <p
-                  className="text-l"
-                  style={{
-                    fontWeight: "bold",
-                  }}>
-                  and we need you!
+                  Imagine you could identify where threatened species live by collecting just a few samples of water… thanks to new environmental DNA (eDNA) technology this is now a reality, and we
+                  need you!
                 </p>
                 <p className="text-s">
-                  By knowing where our precious wildlife live, like the platypus and Marray River short-necked turtle, we could conserve their habitat for generations to come. Please help us collect
-                  water samples which contain DNA from animals that have passed through the area in the past 14 days – pretty wild hey!
+                  By knowing where our precious wildlife live, like the platypus and Murray River Short-Necked Turtle, we could conserve their habitat for generations to come. Please help us collect
+                  water samples which contain DNA from animals that have passed through the area in the past 14 days. Wild hey.
                 </p>
                 <p className="text-s">Learn more about why eDNA sampling is groundbreaking.</p>
               </div>
@@ -376,11 +386,11 @@ const Home: React.FC = () => {
                   We are currently inviting citizen scientists to reserve their testing site. Thanks to the Murray–Darling Basin Authority (MDBA) we are offering the first 420 sites for FREE.
                 </p>
                 <p className="text-s">
-                  Just so you know, it costs $400 per sampling site from beginning to data analysis and reporting, so this season of testing would not be possible without the generous support of the
-                  MDBA.
+                  Just so you know, it costs $400 per sampling site from site reservation to data analysis and reporting, so this season of testing would not be possible without the generous support
+                  of the MDBA.
                 </p>
-                <p className="text-s">Visit our ‘Citizen Scientist’ section if you’d like to know more before reserving your site, otherwise scroll to the reservation map.</p>
-                <p className="text-s">Note: If you’re out of region but would like to be keep in the loop regarding future testing seasons, sign up here</p>
+                <p className="text-s">Head to our ‘Citizen Scientist’ section if you’d like to know a little more before reserving your site, otherwise head to the map below.</p>
+                <p className="text-s">Note: If you’re out of region but would like to be stay in the loop regarding future testing seasons, sign-up here.</p>
               </div>
               <div className="image">
                 <img
