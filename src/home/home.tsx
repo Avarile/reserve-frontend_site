@@ -122,6 +122,7 @@ const Home: React.FC = () => {
   const [selectedSite, setSelectedSite] = useState<ISite | null>(null);
   const [siteId, setSiteId] = useState(0);
   const [sitesReserved, setSitesReserved] = useState<ISite[]>([]);
+  const isMobile = window.innerWidth < 768 ? true : false;
 
   // cantact
   const contactRef = useRef<Request>({
@@ -296,7 +297,12 @@ const Home: React.FC = () => {
       </div>
       <div className="content-area">
         <section className="banner">
-          <img className={lgUp ? "image" : "imageMb"} src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/bannerImage.png" />
+          <img
+            className={lgUp ? "image" : "imageMb"}
+            src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/bannerImage.png"
+            style={{ height: isMobile ? "500px" : "100%", width: "100%", objectFit: "cover" }}
+            alt="header"
+          />
           <div
             className="content"
             style={
