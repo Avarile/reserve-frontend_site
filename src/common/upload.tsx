@@ -14,10 +14,10 @@ import Iconify from "./iconify";
 import { useEffect, useState } from "react";
 import SingleFilePreview from "./preview-single-file";
 import { UploadProps } from "./types";
+import * as ExifReader from "exifreader";
 
 // ----------------------------------------------------------------------
 import { http } from "./http";
-import EXIF from "exif-js";
 
 export interface FileUploadApiRequest {
   content_type: string;
@@ -83,17 +83,20 @@ export default function Upload({
     ...other,
   });
   const [fileList, setFiles] = useState<string[]>([]);
+  const [metadata, setMetadata] = useState<any>({
+    lat: "N/A",
+    lng: "N/A",
+  });
 
-  const getExif = (file: File) => { 
-    const metadata = EXIF.getAllTags(file)
-    return metadata
-  }
+  const extractMetaData = async (file: File) => {
+    const tags = await ExifReader.load(file, { expanded: true });
+    const imageData = tags;
+    return imageData;
+  };
 
   useEffect(() => {
     let file = acceptedFiles[0];
     if (!file) return;
-
-    const metadata = getExif(file)
 
     getUploadUrlApi({
       user_id: 1,
@@ -104,15 +107,22 @@ export default function Upload({
       id: 0,
       type: FileType.UserAvatar,
     }).then((res) => {
-      console.log(res);
-      fileUploadApi(res.data.content.presignedUrl, file).then(() => {
+      fileUploadApi(res.data.content.presignedUrl, file).then(async () => {
         setFiles([res.data.content.fileUrl]);
+        extractMetaData(file).then((metadata) => {
+          console.log(metadata.exif?.GPSLatitude);
+          console.log(metadata.exif?.GPSLongitude);
+          setMetadata({
+            lat: metadata.exif?.GPSLatitude?.description || "N/A",
+            lng: metadata.exif?.GPSLongitude?.description || "N/A",
+          });
+        });
       });
 
       handleFileChange({
         url: res.data.content.fileUrl,
-        lat: metadata?.GPSLatitude || "N/A", 
-        lng: metadata?.GPSLongitude || "N/A",
+        lat: metadata.lat,
+        lng: metadata.lng,
       });
     });
   }, [acceptedFiles]);

@@ -25,7 +25,7 @@ const PartnerStep1: React.ComponentType<SampleStep2PropsType> = (props) => {
       <Box>
         {props.pic.value.lat === "N/A" ? (
           <Typography variant="h6" color="text.secondary" fontFamily={"cursive"}>
-            Your photo does not contain any Geo information, please input the Lat in next step
+            Your photo does not contain any Geo information, please input the Lat / Lng in next step
           </Typography>
         ) : (
           <>
