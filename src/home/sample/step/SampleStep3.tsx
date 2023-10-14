@@ -13,7 +13,10 @@ const PartnerStep1: React.ComponentType<SampleStep3PropsType> = (props) => {
     return (
         <Container className={props.className}>
             <div className="input-area">
-                <div className="line-wrapper">
+                <div className="line-wrapper" style={{
+                    display: "flex",
+                    alignItems: "center",
+                }}>
                     <div className="form-item required">
                         <label>Site code</label>
                         <input type="text" placeholder="Site code"
@@ -33,7 +36,7 @@ const PartnerStep1: React.ComponentType<SampleStep3PropsType> = (props) => {
                                }}/>
                     </div>
                     <div className="form-item required">
-                        <label>Waterway</label>
+                        <label>The Waterway</label>
                         <input type="text" placeholder="Waterway"
                                value={props.formData.value["water_way"]}
                                onChange={(e) => {
