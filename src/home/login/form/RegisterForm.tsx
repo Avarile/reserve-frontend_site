@@ -65,7 +65,13 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
           </div>
           <div className="form-item">
             <label>Postcode</label>
-            <input type="text" placeholder="Enter postcode" />
+            <input
+              type="text"
+              placeholder="Enter postcode"
+              onChange={(e) => {
+                formRef!.current.postcode = e.target.value;
+              }}
+            />
           </div>
         </div>
       </div>
