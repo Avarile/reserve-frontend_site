@@ -12,7 +12,8 @@ export interface CustomFile extends File {
 }
 
 export interface UploadProps extends DropzoneOptions {
-  handleFileChange:(url:Pic)=>void;
+  handleFileChange: (url: Pic) => void;
+  setForceUpdate: React.Dispatch<React.SetStateAction<string | null>>;
   error?: boolean;
   sx?: SxProps<Theme>;
   thumbnail?: boolean;

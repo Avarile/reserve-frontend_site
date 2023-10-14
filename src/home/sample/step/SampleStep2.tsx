@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Upload from "../../../common/upload";
 import Container from "../common/SampleStepContainer.style";
 import { Pic } from "../SampleModal";
@@ -10,6 +10,8 @@ type SampleStep2PropsType = {
 };
 
 const PartnerStep1: React.ComponentType<SampleStep2PropsType> = (props) => {
+  const [forceUpdate, setForceUpdate] = useState<null | string>(null);
+
   return (
     <Container className={props.className}>
       <div className="text-area">
@@ -18,6 +20,7 @@ const PartnerStep1: React.ComponentType<SampleStep2PropsType> = (props) => {
       </div>
       <div className="input-area">
         <Upload
+          setForceUpdate={setForceUpdate}
           handleFileChange={(pic: Pic) => {
             props.pic.set(pic);
           }}></Upload>

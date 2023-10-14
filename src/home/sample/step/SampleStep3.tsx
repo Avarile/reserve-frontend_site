@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import {Info} from "../SampleModal";
 import Container from "../common/SampleStepContainer.style";
 
@@ -8,6 +8,7 @@ type SampleStep3PropsType = {
 };
 
 const PartnerStep1: React.ComponentType<SampleStep3PropsType> = (props) => {
+
 
     return (
         <Container className={props.className}>

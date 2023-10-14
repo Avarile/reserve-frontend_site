@@ -346,10 +346,16 @@ const Home: React.FC = () => {
             ) : (
               <>
                 <div className="buttons">
-                  <a className={`each ${lgUp ? "left" : "leftMd"}`}>Volunteer now</a>
+                  <a
+                    className={`each ${lgUp ? "left" : "leftMd"}`}
+                    onClick={() => {
+                      setIsSampleOpen(true);
+                    }}>
+                    Submit Sample
+                  </a>
                 </div>
                 <div className="buttons">
-                  <a className="each right">Learn more</a>
+                  <a className="each right">Contact Us</a>
                 </div>
               </>
             )}

@@ -61,6 +61,7 @@ function fileUploadApi(url: string, params: File) {
 }
 export default function Upload({
   handleFileChange,
+  setForceUpdate,
   disabled,
   multiple = false,
   error,
@@ -110,12 +111,12 @@ export default function Upload({
       fileUploadApi(res.data.content.presignedUrl, file).then(async () => {
         setFiles([res.data.content.fileUrl]);
         extractMetaData(file).then((metadata) => {
-          console.log(metadata.exif?.GPSLatitude);
-          console.log(metadata.exif?.GPSLongitude);
-          setMetadata({
-            lat: metadata.exif?.GPSLatitude?.description || "N/A",
-            lng: metadata.exif?.GPSLongitude?.description || "N/A",
-          });
+          setTimeout(() => {
+            setMetadata({
+              lat: metadata.exif?.GPSLatitude?.description || "N/A",
+              lng: metadata.exif?.GPSLongitude?.description || "N/A",
+            });
+          }, 3000);
         });
       });
 
@@ -124,6 +125,8 @@ export default function Upload({
         lat: metadata.lat,
         lng: metadata.lng,
       });
+
+      setForceUpdate && setForceUpdate(new Date().getTime().toString());
     });
   }, [acceptedFiles]);
   const hasFile = !!file && !multiple;
