@@ -107,23 +107,23 @@ export default function Upload({
       file_size: file.size,
       id: 0,
       type: FileType.UserAvatar,
-    }).then((res) => {
+    }).then(async (res) => {
       fileUploadApi(res.data.content.presignedUrl, file).then(async () => {
         setFiles([res.data.content.fileUrl]);
-        extractMetaData(file).then((metadata) => {
-          setTimeout(() => {
-            setMetadata({
-              lat: metadata.exif?.GPSLatitude?.description || "N/A",
-              lng: metadata.exif?.GPSLongitude?.description || "N/A",
-            });
-          }, 3000);
-        });
+        // extractMetaData(file).then((metadata) => {
+        //     setMetadata({
+        //       lat: metadata.exif?.GPSLatitude?.description || "N/A",
+        //       lng: metadata.exif?.GPSLongitude?.description || "N/A",
+        //     });
+        // });
       });
+
+      const metadata_temp = await extractMetaData(file);
 
       handleFileChange({
         url: res.data.content.fileUrl,
-        lat: metadata.lat,
-        lng: metadata.lng,
+        lat: metadata_temp.exif?.GPSLatitude?.description || "N/A",
+        lng: metadata_temp.exif?.GPSLongitude?.description || "N/A",
       });
 
       setForceUpdate && setForceUpdate(new Date().getTime().toString());

@@ -9,7 +9,6 @@ import SampleStep4 from "./step/SampleStep4";
 import { enqueueSnackbar } from "notistack";
 
 function sampleCreateApi(params: FormRef) {
-  console.log(params);
   
   return http.request<{ data: any }>({
     url: "/api/sample/create",
