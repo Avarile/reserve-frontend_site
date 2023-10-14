@@ -108,7 +108,7 @@ const Home: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [login, setLogin] = useState(false);
 
-  const center = useMemo(() => ({ lat: -25.363, lng: 131.044 }), []);
+  const center = useMemo(() => ({ lat: -34.10919, lng: 141.921823 }), []);
   const [sites, setSites] = useState([]);
 
   const [searchSiteParams, setSearchSiteParams] = useState<null | string>(null);
@@ -475,7 +475,7 @@ const Home: React.FC = () => {
                 </GoogleMap>
               )}
               <div className="form">
-                <Autocomplete
+                {/* <Autocomplete
                   id={"postcode search"}
                   freeSolo
                   sx={{ width: "100%" }}
@@ -487,7 +487,7 @@ const Home: React.FC = () => {
                   }}
                   options={sitesSearched}
                   disableClearable
-                />
+                /> */}
                 {selectedSite === null &&
                   sitesSearched.length > 0 &&
                   sitesSearched.map((site: any, index: number) => {
@@ -677,6 +677,7 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Address"
+                                value={currentUser?.address}
                                 onChange={(e) => {
                                   reservationFormRef.current.address = e.target.value;
                                 }}
@@ -693,6 +694,7 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="City"
+                                value={currentUser?.city}
                                 onChange={(e) => {
                                   reservationFormRef.current.city = e.target.value;
                                 }}
@@ -710,6 +712,7 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Postcode"
+                                value={currentUser?.postcode}
                                 onChange={(e) => {
                                   reservationFormRef.current.postcode = e.target.value;
                                 }}
