@@ -806,7 +806,7 @@ const Home: React.FC = () => {
                                 type="text"
                                 placeholder="Suburb"
                                 onChange={(e) => {
-                                  reservationFormRef.current.address = e.target.value;
+                                  reservationFormRef.current.suburb = e.target.value;
                                 }}
                               />
                             </div>
