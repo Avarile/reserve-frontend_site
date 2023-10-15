@@ -836,86 +836,12 @@ const Home: React.FC = () => {
             paddingBottom: "50px",
             paddingTop: "50px",
           }}>
-          <iframe height={"1200px"} width={"800px"} src="https://us8.list-manage.com/contact-form?u=410d225b855e5437b7f902ae9&form_id=80e27f3aae6ceaa654206be3ba1a8bd0" frameBorder={"none"} />
-
-          {/* <div className="content">
-            <div className="title">
-              <p className="high">Get in touch</p>
-              <p className="normal" style={{ color: "#6D6D1F" }}>
-                Our friendly team would love to hear from you.
-              </p>
-            </div>
-            <div className="input-area">
-              <div>
-                <div className="form-item">
-                  <label>First name</label>
-                  <input
-                    onChange={(e) => {
-                      contactRef.current.first_name = e.target.value;
-                    }}
-                    type="text"
-                    placeholder="First name"
-                  />
-                </div>
-                <div className="form-item">
-                  <label>Last name</label>
-                  <input
-                    onChange={(e) => {
-                      contactRef.current.last_name = e.target.value;
-                    }}
-                    type="text"
-                    placeholder="Last name"
-                  />
-                </div>
-              </div>
-              <div className="form-item">
-                <label>Email</label>
-                <input
-                  onChange={(e) => {
-                    contactRef.current.email = e.target.value;
-                  }}
-                  type="email"
-                  placeholder="you@company.com"
-                />
-              </div>
-              <div className="form-item">
-                <label>Phone number</label>
-                <input
-                  onChange={(e) => {
-                    contactRef.current.phone = e.target.value;
-                  }}
-                  type="tel"
-                  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                  placeholder="0412 345 678"
-                />
-              </div>
-              <div className="form-item">
-                <label>Message</label>
-                <textarea
-                  onChange={(e) => {
-                    contactRef.current.message = e.target.value;
-                  }}
-                  rows={4}
-                  cols={50}></textarea>
-              </div>
-              <div className="form-check">
-                <input type="checkbox" />
-                <label>You agree to our privacy policy.</label>
-              </div>
-              <button
-                className="submit"
-                onClick={() => {
-                  contactCreateApi(contactRef.current).then((res) => {
-                    enqueueSnackbar("Your message has been sent successfully!", {
-                      variant: "success",
-                      autoHideDuration: 2000,
-                    });
-                  });
-                }}>
-                Send message
-              </button>
-            </div>
-          </div> */}
+          <iframe
+            height={isMobile ? "1000px" : "1200px"}
+            width={isMobile ? "100%" : "800px"}
+            src="https://us8.list-manage.com/contact-form?u=410d225b855e5437b7f902ae9&form_id=80e27f3aae6ceaa654206be3ba1a8bd0"
+            frameBorder={"none"}
+          />
         </section>
       </div>
       <div className={lgUp ? "aside-area" : "aside-area-mb"}>
