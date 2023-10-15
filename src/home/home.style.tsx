@@ -12,8 +12,8 @@ const Container = styled((props: any) => {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    gap: "20px",
-    marginTop: "30px",
+    gap: "10px",
+    marginTop: "5px",
 
     ".each": {
       width: "90vw",
@@ -78,6 +78,7 @@ const Container = styled((props: any) => {
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
+        gap: "30px",
 
         "& > .text": {
           padding: "14px",

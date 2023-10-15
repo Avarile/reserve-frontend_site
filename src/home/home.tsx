@@ -11,15 +11,94 @@ import LoginModal from "./login/LoginModal";
 import SampleModal from "./sample/SampleModal";
 import { useResponsive } from "../common/use-responsive";
 import Iconify from "../common/iconify";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, TextField, Button, Typography, Stack } from "@mui/material";
 import { Autocomplete } from "@mui/material";
-import Select from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
 function handleStopWheel(e: any) {
   e.preventDefault();
 }
+
+const about = {
+  group_name: "About",
+  items: [
+    {
+      name: "Snapshot of the Murray-Darling",
+      link: "#",
+    },
+    {
+      name: "Odonata Foundation",
+      link: "#",
+    },
+    {
+      name: "Program Partner - eDNA",
+      link: "#",
+    },
+    {
+      name: "Program Partner - MDBA",
+      link: "#",
+    },
+    {
+      name: "about EDNA technology",
+      link: "#",
+    },
+    {
+      name: "FAQs",
+      link: "#",
+    },
+  ],
+};
+
+const join = {
+  group_name: "Join",
+  items: [
+    {
+      name: "Become a Citizen Scientist",
+      link: "#",
+    },
+    {
+      name: "Sponsor the Program",
+      link: "#",
+    },
+    {
+      name: "Donate",
+      link: "#",
+    },
+    {
+      name: "Register for updates",
+      link: "#",
+    },
+    {
+      name: "FAQs",
+      link: "#",
+    },
+  ],
+};
+
+const citizen = {
+  group_name: "For Citizen Scientists",
+  items: [
+    {
+      name: "Login to Record Data",
+      link: "#",
+    },
+    {
+      name: "How to Register",
+      link: "#",
+    },
+    {
+      name: "Testing Instructions",
+      link: "#",
+    },
+    {
+      name: "FAQs",
+      link: "#",
+    },
+  ],
+};
 
 const isMobile = window.innerWidth < 768 ? true : false;
 
@@ -203,14 +282,10 @@ const Home: React.FC = () => {
           <img className={"logo"} src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
           {lgUp ? (
             <div className="navigation">
-              <a className="text">For Citizen Scientists</a>
-              <a className="text">Sponsor & Donate</a>
-              <a className="text">Join</a>
-              <a className="text">MDB</a>
-              <a className="text">About</a>
-              <a className="text">Reserve testing site</a>
-              <a className="text">FAQ</a>
-              <a
+              <MenuTemplate data={about} />
+              <MenuTemplate data={join} />
+              <MenuTemplate data={citizen} />
+              {/* <a
                 onClick={() => {
                   document.getElementById("roll1_top")!.scrollIntoView({
                     behavior: "smooth",
@@ -218,7 +293,7 @@ const Home: React.FC = () => {
                 }}
                 className="text">
                 Contact
-              </a>
+              </a> */}
               <a
                 className="button"
                 onClick={() => {
@@ -271,22 +346,20 @@ const Home: React.FC = () => {
                     style={{
                       width: "100vw",
                       position: "absolute",
-                      top: 160,
+                      top: 10,
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: "center",
-                      height: "calc(100vh - 400px)",
-                      justifyContent: "space-around",
+                      alignItems: "flex-start",
+                      height: "calc(100vh)",
+                      justifyContent: "space-evenly",
+                      zIndex: 110,
                     }}>
-                    <div className="btnLabel">For Citizen Scientists</div>
-                    <div className="btnLabel">Sponsor & Donate</div>
-                    <div className="btnLabel">Join</div>
-                    <div className="btnLabel">MDB</div>
-                    <div className="btnLabel">About</div>
-                    <div className="btnLabel">Reserve testing site</div>
-                    <div className="btnLabel">FAQ</div>
-                    <div className="btnLabel">Contact</div>
-                    <div className="loginBtnInfo">
+                    <MenuTemplateZippedList />
+                    <div
+                      className="loginBtnInfo"
+                      style={{
+                        marginLeft: "10px",
+                      }}>
                       <a
                         onClick={() => {
                           setIsLoginOpen(true);
@@ -680,7 +753,7 @@ const Home: React.FC = () => {
                                 placeholder="Address"
                                 value={currentUser?.address}
                                 onChange={(e) => {
-                                  reservationFormRef.current.address = e.target.value;
+                                  reservationFormRef.current.address = e.target.value ? e.target.value : currentUser?.address;
                                 }}
                               />
                             </div>
@@ -757,8 +830,15 @@ const Home: React.FC = () => {
           </div>
         </section>
         <div id="roll1_top"></div>
-        <section className={lgUp ? "section-container" : "section-container-mb"}>
-          <div className="content">
+        <section
+          className={lgUp ? "section-container" : "section-container-mb"}
+          style={{
+            paddingBottom: "50px",
+            paddingTop: "50px",
+          }}>
+          <iframe height={"1200px"} width={"800px"} src="https://us8.list-manage.com/contact-form?u=410d225b855e5437b7f902ae9&form_id=80e27f3aae6ceaa654206be3ba1a8bd0" frameBorder={"none"} />
+
+          {/* <div className="content">
             <div className="title">
               <p className="high">Get in touch</p>
               <p className="normal" style={{ color: "#6D6D1F" }}>
@@ -835,7 +915,7 @@ const Home: React.FC = () => {
                 Send message
               </button>
             </div>
-          </div>
+          </div> */}
         </section>
       </div>
       <div className={lgUp ? "aside-area" : "aside-area-mb"}>
@@ -864,17 +944,7 @@ const Home: React.FC = () => {
             </p>
           </div>
           <div className="right">
-            <a className="each">Get started</a>
-            <a className="each">Contact</a>
-            <a className="each">Account</a>
-            <a
-              className="each"
-              onClick={() => {
-                setIsSampleOpen(true);
-              }}>
-              Submit sample
-            </a>
-            <a className="each">Privacy</a>
+            <MenuTemplateZippedFooter />
           </div>
         </div>
       </div>
@@ -903,3 +973,112 @@ const Home: React.FC = () => {
   );
 };
 export default Home;
+
+interface IMenuTitle {
+  group_name: string;
+  items: IMenuItem[];
+}
+
+interface IMenuItem {
+  name: string;
+  link: string;
+}
+
+export function MenuTemplate(props: { data: IMenuTitle }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        variant="text"
+        sx={{
+          color: "#332820",
+        }}
+        endIcon={!open ? <Iconify icon="ic:outline-keyboard-arrow-down" width={24} /> : <Iconify icon="ic:outline-keyboard-arrow-up" width={24} />}
+        onMouseEnter={handleClick}>
+        {props.data.group_name}
+      </Button>
+      <Menu
+        id="basic-menu"
+        sx={{
+          borderRadius: "12px",
+          width: "500px",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          onMouseLeave: handleClose,
+        }}>
+        {props.data.items.map((item) => (
+          <MenuItem
+            key={item.name}
+            onClick={() => {
+              window.location.href = item.link;
+            }}>
+            <Typography variant="inherit" noWrap color={"#332820"}>
+              {item.name}
+            </Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
+}
+
+function MenuTemplateZipped(props: { data: IMenuTitle; dark?: boolean }) {
+  return (
+    <Stack direction="column" spacing={1}>
+      <Typography variant="h6" noWrap fontWeight={600} fontSize={16} color={props.dark ? "#332820" : "white"}>
+        {" "}
+        {props.data.group_name}
+      </Typography>
+      <Stack direction="column" spacing={1}>
+        {props.data.items.map((item) => (
+          <Typography
+            variant="h6"
+            noWrap
+            fontWeight={400}
+            fontSize={14}
+            color={props.dark ? "#332820" : "white"}
+            onClick={() => {
+              window.location.href = item.link;
+            }}>
+            {item.name}
+          </Typography>
+        ))}
+      </Stack>
+    </Stack>
+  );
+}
+
+function MenuTemplateZippedList() {
+  return (
+    <Stack direction="column" spacing={1} pl={"10px"}>
+      <MenuTemplateZipped data={about} dark />
+      <MenuTemplateZipped data={join} dark />
+      <MenuTemplateZipped data={citizen} dark />
+    </Stack>
+  );
+}
+
+function MenuTemplateZippedFooter() {
+  return (
+    <Stack direction="column" spacing={1} pl={0}>
+      <MenuTemplateZipped data={about} />
+      <MenuTemplateZipped data={join} />
+      <MenuTemplateZipped data={citizen} />
+    </Stack>
+  );
+}
