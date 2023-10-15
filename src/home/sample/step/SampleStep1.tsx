@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { MenuItem, Select } from "@mui/material";
 import { Submitter } from "../SampleModal";
 import Container from "../common/SampleStepContainer.style";
@@ -12,6 +12,14 @@ type SampleStep1PropsType = {
 
 const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
   const [site, setSite] = useState("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  useEffect(() => {
+    const userInfo = sessionStorage.getItem("USER");
+    if (userInfo) {
+      setCurrentUser(JSON.parse(userInfo));
+    }
+  }, []);
 
   return (
     <Container className={props.className}>
@@ -22,7 +30,8 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
             <input
               type="text"
               placeholder="First name"
-              value={props.formData.value["firstname"]}
+              // value={props.formData.value["firstname"]}
+              value={currentUser?.name}
               onChange={(e) => {
                 props.formData.value["firstname"] = e.target.value;
                 props.formData.set({ ...props.formData.value });
@@ -48,7 +57,8 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
             <input
               type="email"
               placeholder="you@company.com"
-              value={props.formData.value["email"]}
+              // value={props.formData.value["email"]}
+              value={currentUser?.email}
               onChange={(e) => {
                 props.formData.value["email"] = e.target.value;
                 props.formData.set({ ...props.formData.value });

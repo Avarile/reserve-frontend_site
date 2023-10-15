@@ -1,5 +1,5 @@
 import React, { Dispatch, useRef, useState } from "react";
-import { Box, Modal } from "@mui/material";
+import { Box, Modal, Stack } from "@mui/material";
 import { http } from "../../common/http";
 import Container from "./SampleModal.style";
 import SampleStep1 from "./step/SampleStep1";
@@ -7,6 +7,7 @@ import SampleStep2 from "./step/SampleStep2";
 import SampleStep3 from "./step/SampleStep3";
 import SampleStep4 from "./step/SampleStep4";
 import { enqueueSnackbar } from "notistack";
+import { Icon } from "@iconify/react";
 
 function sampleCreateApi(params: FormRef) {
   return http.request<{ data: any }>({
@@ -129,7 +130,14 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       onClose={() => props.onClose && props.onClose()}>
-      <Container>
+      <Container style={!isMobile ? { overFlow: "hidden" } : { height: "90vh", overflow: "auto" }}>
+        <Icon
+          icon="carbon:close"
+          width="50"
+          height="24"
+          onClick={() => props.setIsSampleOpen(false)}
+          style={{ position: "absolute", top: isMobile ? "60px" : "16px", right: isMobile ? "120px" : "16px", cursor: "pointer", zIndex: "150" }}
+        />
         {submitFinish ? (
           <>
             <div className="title">Submit your sample</div>

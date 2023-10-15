@@ -798,7 +798,7 @@ const Container = styled((props: any) => {
           flexDirection: "row",
           gap: "25px",
           width: "100%",
-          height: "560px",
+          height: "812px",
 
           "& > .map": {
             width: "calc((100% - 25px) * 0.75)",

@@ -103,10 +103,13 @@ const citizen = {
 const isMobile = window.innerWidth < 768 ? true : false;
 
 export type ReservationFormRef = {
-  address: string;
-  city: string;
-  postcode: string;
   site_id: number;
+  postcode: string;
+  address: string;
+  state: string;
+  suburb: string;
+  name: string;
+  phone: string;
 };
 
 const testMarkers = [
@@ -215,13 +218,22 @@ const Home: React.FC = () => {
 
   const reservationFormRef = useRef<ReservationFormRef>({
     address: "",
-    city: "",
+    state: "",
     postcode: "",
     site_id: 0,
+    suburb: "",
+    name: "",
+    phone: "",
   });
 
   useEffect(() => {
-    let a = sessionStorage.getItem("USER");
+    const userInfo = sessionStorage.getItem("USER");
+    if (userInfo) {
+      setCurrentUser(JSON.parse(userInfo));
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -411,7 +423,7 @@ const Home: React.FC = () => {
                 <a
                   className="each left"
                   onClick={() => {
-                    setIsSampleOpen(true);
+                    login ? setIsSampleOpen(true) : setIsLoginOpen(true);
                   }}>
                   Submit Sample
                 </a>
@@ -548,7 +560,7 @@ const Home: React.FC = () => {
                   })}
                 </GoogleMap>
               )}
-              <div className="form">
+              <div className="form" style={{ marginTop: isMobile ? "20px" : 0 }}>
                 {/* <Autocomplete
                   id={"postcode search"}
                   freeSolo
@@ -763,18 +775,32 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                City
+                                Suburb
                               </p>
                               <input
                                 type="text"
-                                placeholder="City"
-                                value={currentUser?.city}
+                                placeholder="Suburb"
                                 onChange={(e) => {
-                                  reservationFormRef.current.city = e.target.value;
+                                  reservationFormRef.current.address = e.target.value;
                                 }}
                               />
                             </div>
-
+                            <div className="form-item">
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                }}>
+                                State
+                              </p>
+                              <input
+                                type="text"
+                                placeholder="State"
+                                onChange={(e) => {
+                                  reservationFormRef.current.state = e.target.value;
+                                }}
+                              />
+                            </div>
                             <div className="form-item">
                               <p
                                 style={{
@@ -789,6 +815,39 @@ const Home: React.FC = () => {
                                 value={currentUser?.postcode}
                                 onChange={(e) => {
                                   reservationFormRef.current.postcode = e.target.value;
+                                }}
+                              />
+                            </div>
+                            <div className="form-item">
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                }}>
+                                Name
+                              </p>
+                              <input
+                                type="text"
+                                placeholder="Name"
+                                value={currentUser.name}
+                                onChange={(e) => {
+                                  reservationFormRef.current.name = e.target.value ? e.target.value : currentUser?.name;
+                                }}
+                              />
+                            </div>
+                            <div className="form-item">
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                }}>
+                                Phone
+                              </p>
+                              <input
+                                type="text"
+                                placeholder="Phone"
+                                onChange={(e) => {
+                                  reservationFormRef.current.phone = e.target.value;
                                 }}
                               />
                             </div>
