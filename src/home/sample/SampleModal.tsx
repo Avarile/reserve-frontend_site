@@ -136,7 +136,7 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
           width="50"
           height="24"
           onClick={() => props.setIsSampleOpen(false)}
-          style={{ position: "absolute", top: isMobile ? "60px" : "16px", right: isMobile ? "120px" : "16px", cursor: "pointer", zIndex: "150" }}
+          style={{ position: "absolute", top: isMobile ? "60px" : "16px", right: isMobile ? "100px" : "16px", cursor: "pointer", zIndex: "150" }}
         />
         {submitFinish ? (
           <>
