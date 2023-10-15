@@ -8,6 +8,7 @@ import SampleStep3 from "./step/SampleStep3";
 import SampleStep4 from "./step/SampleStep4";
 import { enqueueSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
+import { type } from "os";
 
 function sampleCreateApi(params: FormRef) {
   return http.request<{ data: any }>({
@@ -18,6 +19,7 @@ function sampleCreateApi(params: FormRef) {
       pic: params.pic.url,
       lat: params.pic.lat,
       lng: params.pic.lng,
+      geo_pic: params.geo_pic,
       info: params.info,
     },
   });
@@ -33,6 +35,7 @@ type InputModalPropsType = {
 export type FormRef = {
   submitter: Submitter; // 阶段一
   pic: Pic; // 阶段二
+  geo_pic: string;
   info: Info; // 阶段三
 };
 
@@ -50,6 +53,8 @@ export type Pic = {
   lat: string;
   lng: string;
 };
+
+export type GeoPic = string;
 
 // 阶段三
 export type Info = {
@@ -95,6 +100,8 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
     water_way: "",
   });
 
+  const [geoPic, setGeoPic] = useState<GeoPic>("");
+
   const preStep = () => {
     if (activeStep > 0) {
       setActiveStep(activeStep - 1);
@@ -111,6 +118,7 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
     sampleCreateApi({
       submitter: submitterForm,
       pic: pic,
+      geo_pic: geoPic,
       info: infoForm,
     }).then(() => {
       enqueueSnackbar("Submit success!", {
@@ -198,7 +206,9 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
                 ) : (
                   ""
                 )}
-                {activeStep === 1 ? <SampleStep2 pic={{ value: pic, set: setPic }}></SampleStep2> : ""}
+                  {activeStep === 1 ? <SampleStep2 pic={{ value: pic, set: setPic }} geoPic={{
+                    value: geoPic, set: setGeoPic
+                  }}></SampleStep2> : ""}
                 {activeStep === 2 ? (
                   <SampleStep3
                     formData={{

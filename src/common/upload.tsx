@@ -45,14 +45,14 @@ export interface FileUploadApiRespone {
   // 上传路径
   presignedUrl: string;
 }
-function getUploadUrlApi(params: FileUploadApiRequest) {
+export function getUploadUrlApi(params: FileUploadApiRequest) {
   return http.request<{ content: FileUploadApiRespone }>({
     url: "/api/sample/upload/image",
     method: "POST",
     data: params,
   });
 }
-function fileUploadApi(url: string, params: File) {
+export function fileUploadApi(url: string, params: File) {
   return http.put(url, params, {
     headers: {
       "Content-Type": "multipart/form-data",

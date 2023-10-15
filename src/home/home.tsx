@@ -412,9 +412,27 @@ const Home: React.FC = () => {
               <p className="title">Join the Great Australian Wildlife Search</p>
             ) : (
               <div>
-                <div className="titleMd">Join the Great</div>
-                <div className="titleMd">Australian</div>
-                <div className="titleMd">Wildlife Search</div>
+                <div
+                  className="titleMd"
+                  style={{
+                    fontFamily: " sans-serif",
+                  }}>
+                  Join the Great
+                </div>
+                <div
+                  className="titleMd"
+                  style={{
+                    fontFamily: " sans-serif",
+                  }}>
+                  Australian
+                </div>
+                <div
+                  className="titleMd"
+                  style={{
+                    fontFamily: " sans-serif",
+                  }}>
+                  Wildlife Search
+                </div>
               </div>
             )}
             <p className={lgUp ? "paragraph" : "paragraphMd"}>A revolution in wildlife mapping and conservation, delivered by Odonata Foundation</p>
@@ -433,6 +451,9 @@ const Home: React.FC = () => {
               <>
                 <div className="buttons">
                   <a
+                    style={{
+                      fontFamily: " sans-serif",
+                    }}
                     className={`each ${lgUp ? "left" : "leftMd"}`}
                     onClick={() => {
                       setIsSampleOpen(true);
@@ -441,7 +462,11 @@ const Home: React.FC = () => {
                   </a>
                 </div>
                 <div className="buttons">
-                  <a className="each right">Contact Us</a>
+                    <a className="each right"
+                      style={{
+                      fontFamily: " sans-serif",
+                      }}
+                    >Contact Us</a>
                 </div>
               </>
             )}

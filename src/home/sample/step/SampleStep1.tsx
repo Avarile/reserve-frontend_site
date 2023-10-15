@@ -3,6 +3,16 @@ import { MenuItem, Select } from "@mui/material";
 import { Submitter } from "../SampleModal";
 import Container from "../common/SampleStepContainer.style";
 import BootstrapInput from "../../../common/BootstrapInput";
+import { http } from "../../../common/http";
+
+function reservationsApi() {
+  return http.request({
+    url: "/api/reservation/query",
+    method: "POST",
+  });
+}
+
+const userInfo = sessionStorage.getItem("USER") || "{ }";
 
 type SampleStep1PropsType = {
   sites: any[];
@@ -12,14 +22,24 @@ type SampleStep1PropsType = {
 
 const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
   const [site, setSite] = useState("");
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<any>(JSON.parse(sessionStorage.getItem("USER") || "{ }"));
+  const [siteReserved, setSiteReserved] = useState<any>(null);
 
   useEffect(() => {
-    const userInfo = sessionStorage.getItem("USER");
-    if (userInfo) {
-      setCurrentUser(JSON.parse(userInfo));
-    }
-  }, []);
+    setCurrentUser(JSON.parse(userInfo));
+
+    reservationsApi().then((res) => {
+      console.log(res.data.content);
+
+      let site_id: any[] = [];
+      res.data.content.map((item: any) => {
+        if (item?.user_id === currentUser?.id) {
+          site_id.push(item?.site_id.toString());
+        }
+      });
+      setSiteReserved(site_id);
+    });
+  }, [userInfo]);
 
   return (
     <Container className={props.className}>
@@ -89,7 +109,9 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
               setSite(e.target.value as string);
             }}>
             {props.sites.map((site) => {
-              return <MenuItem value={parseInt(site.site_id)}>{site.site_id}</MenuItem>;
+              if (siteReserved?.includes(site?.site_id)) {
+                return <MenuItem value={parseInt(site?.site_id)}>{site?.site_id}</MenuItem>;
+              }
             })}
           </Select>
         </div>

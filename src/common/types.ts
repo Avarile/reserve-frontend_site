@@ -1,7 +1,7 @@
 import { DropzoneOptions } from 'react-dropzone';
 // @mui
 import { Theme, SxProps } from '@mui/material/styles';
-import { Pic } from '../home/sample/SampleModal';
+import { GeoPic, Pic } from '../home/sample/SampleModal';
 
 // ----------------------------------------------------------------------
 
