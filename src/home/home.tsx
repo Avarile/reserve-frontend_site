@@ -973,6 +973,9 @@ function MenuTemplateZipped(props: { data: IMenuTitle; dark?: boolean }) {
       <Stack direction="column" spacing={1}>
         {props.data.items.map((item) => (
           <Typography
+            sx={{
+              cursor: "pointer",
+            }}
             variant="h6"
             noWrap
             fontWeight={400}

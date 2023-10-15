@@ -9,7 +9,6 @@ import SampleStep4 from "./step/SampleStep4";
 import { enqueueSnackbar } from "notistack";
 
 function sampleCreateApi(params: FormRef) {
-  
   return http.request<{ data: any }>({
     url: "/api/sample/create",
     method: "POST",
@@ -130,10 +129,7 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       onClose={() => props.onClose && props.onClose()}>
-      <Container style={{
-        overFlow: isMobile ? "scroll" : "hidden",
-        marginBottom: isMobile ? "0px" : "1000px",
-      }}>
+      <Container>
         {submitFinish ? (
           <>
             <div className="title">Submit your sample</div>
@@ -207,8 +203,7 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
                 {activeStep === 3 ? <SampleStep4 submitter={submitterForm} pic={pic} info={infoForm}></SampleStep4> : ""}
               </div>
             </div>
-              <div className="buttons" style={{
-              }}>
+            <div className="buttons" style={{}}>
               {activeStep === 0 ? (
                 ""
               ) : (
