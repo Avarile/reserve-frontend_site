@@ -29,7 +29,6 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
     setCurrentUser(JSON.parse(userInfo));
 
     reservationsApi().then((res) => {
-      console.log(res.data.content);
 
       let site_id: any[] = [];
       res.data.content.map((item: any) => {
@@ -38,6 +37,11 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
         }
       });
       setSiteReserved(site_id);
+
+      // init the form data
+      props.formData.value['firstname'] = currentUser?.name
+      props.formData.value['email'] = currentUser?.email
+      props.formData.set({...props.formData.value})
     });
   }, [userInfo]);
 
@@ -53,7 +57,7 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
               // value={props.formData.value["firstname"]}
               value={currentUser?.name}
               onChange={(e) => {
-                props.formData.value["firstname"] = e.target.value;
+                props.formData.value["firstname"] = currentUser?.name;
                 props.formData.set({ ...props.formData.value });
               }}
             />
@@ -80,7 +84,7 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
               // value={props.formData.value["email"]}
               value={currentUser?.email}
               onChange={(e) => {
-                props.formData.value["email"] = e.target.value;
+                props.formData.value["email"] = currentUser?.email;
                 props.formData.set({ ...props.formData.value });
               }}
             />
@@ -107,6 +111,7 @@ const SampleStep1: React.ComponentType<SampleStep1PropsType> = (props) => {
             onChange={(e) => {
               console.log(e.target.value);
               setSite(e.target.value as string);
+              props.formData.value["test_site"] = parseInt(e.target.value);
             }}>
             {props.sites.map((site) => {
               if (siteReserved?.includes(site?.site_id)) {
