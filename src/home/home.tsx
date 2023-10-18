@@ -27,27 +27,23 @@ const about = {
   items: [
     {
       name: "Snapshot of the Murray-Darling",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
       name: "Odonata Foundation",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/murraydarling",
     },
     {
       name: "Program Partner - eDNA",
-      link: "#",
-    },
-    {
-      name: "Program Partner - MDBA",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
       name: "about EDNA technology",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/about#edna",
     },
     {
       name: "FAQs",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/faq",
     },
   ],
 };
@@ -57,23 +53,19 @@ const join = {
   items: [
     {
       name: "Become a Citizen Scientist",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/join-the-search",
     },
     {
       name: "Sponsor the Program",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/sponsor-donate#sponsor",
     },
     {
       name: "Donate",
-      link: "#",
-    },
-    {
-      name: "Register for updates",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/sponsor-donate#donate",
     },
     {
       name: "FAQs",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/faq",
     },
   ],
 };
@@ -83,19 +75,19 @@ const citizen = {
   items: [
     {
       name: "Login to Record Data",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#login",
     },
     {
       name: "How to Register",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#register",
     },
     {
       name: "Testing Instructions",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#test-instructions",
     },
     {
       name: "FAQs",
-      link: "#",
+      link: "https://greataustralianwildlifesearch.framer.website/faq",
     },
   ],
 };
@@ -936,10 +928,15 @@ const Home: React.FC = () => {
               tax-deductible in Australia.
             </p>
             <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
+              The Great Australian Wildlife Search is being delivered with support of the Basin Condition Monitoring Program – an Australian Government commitment to develop and deliver new monitoring and reporting of economic, social, cultural and environmental conditions in the Basin.
+            </p>
+            <p className="text-m" style={{ margin: "30px 0 16px 0", fontWeight: "600" }}>
               The Great Australian Wildlife Search is delivered by
             </p>
-            <div className="image-row">
-              <img src="https://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/footerLogo.png" />
+            <div className="image-row" style={{
+              width: "300px"
+            }}>
+              <img src="https://wildlifesearch.s3.ap-southeast-2.amazonaws.com/websites/ODONATA-foundation-line+1.png" />
             </div>
             <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
               In partnership with
@@ -953,9 +950,9 @@ const Home: React.FC = () => {
               emerging.
             </p>
           </div>
-          <div className="right">
+          {/* <div className="right">
             <MenuTemplateZippedFooter />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="footer">
