@@ -502,9 +502,9 @@ const Home: React.FC = () => {
                   By knowing where our precious wildlife live, like the platypus and Murray River Short-Necked Turtle, we could conserve their habitat for generations to come. Please help us collect
                   water samples which contain DNA from animals that have passed through the area in the past 14 days. Wild hey.
                 </p>
-                <Stack direction="row" spacing={0.5}>
-                  <Hyperlink string="Learn more" link="https://greataustralianwildlifesearch.framer.website/about#edna" /> <p className="text-s">about why eDNA sampling is groundbreaking.</p>
-                </Stack>
+                <p className="text-s">
+                  <Hyperlink string="Learn more" link="https://greataustralianwildlifesearch.framer.website/about#edna" /> about why eDNA sampling is groundbreaking.
+                </p>
               </div>
             </div>
           </div>
