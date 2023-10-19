@@ -15,6 +15,7 @@ import { IconButton, TextField, Button, Typography, Stack } from "@mui/material"
 import { Autocomplete } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import styled from "@emotion/styled";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
@@ -26,19 +27,20 @@ const about = {
   group_name: "About",
   items: [
     {
-      name: "Snapshot of the Murray-Darling",
+      name: "About Odonata Foundation",
+
       link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
-      name: "Odonata Foundation",
+      name: "Snapshot of the Murray-Darling",
       link: "https://greataustralianwildlifesearch.framer.website/murraydarling",
     },
     {
-      name: "Program Partner - eDNA",
+      name: "Program Partner",
       link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
-      name: "about EDNA technology",
+      name: "How eDNA Works",
       link: "https://greataustralianwildlifesearch.framer.website/about#edna",
     },
     {
@@ -52,11 +54,11 @@ const join = {
   group_name: "Join",
   items: [
     {
-      name: "Become a Citizen Scientist",
+      name: "Become a citizen Scientist",
       link: "https://greataustralianwildlifesearch.framer.website/join-the-search",
     },
     {
-      name: "Sponsor the Program",
+      name: "Sponsor the program",
       link: "https://greataustralianwildlifesearch.framer.website/sponsor-donate#sponsor",
     },
     {
@@ -74,12 +76,12 @@ const citizen = {
   group_name: "For Citizen Scientists",
   items: [
     {
-      name: "Login to Record Data",
-      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#login",
-    },
-    {
       name: "How to Register",
       link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#register",
+    },
+    {
+      name: "Login to Record Data",
+      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#login",
     },
     {
       name: "Testing Instructions",
@@ -247,6 +249,16 @@ const Home: React.FC = () => {
       setSitesSearched([]);
     }
   }, [searchSiteParams]);
+
+  const GoogleScrollRef = useRef<HTMLDivElement>(null);
+
+  const handlScrollTrigger = () => {
+    if (GoogleScrollRef.current) {
+      GoogleScrollRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
 
   const markers = useMemo(() => {
     return sites.map((site: ISite) => {
@@ -437,7 +449,13 @@ const Home: React.FC = () => {
                   }}>
                   Submit Sample
                 </a>
-                <a className="each right">Contact Us</a>
+                <a
+                  className="each right"
+                  onClick={() => {
+                    handlScrollTrigger();
+                  }}>
+                  Reserve a Site
+                </a>
               </div>
             ) : (
               <>
@@ -454,11 +472,16 @@ const Home: React.FC = () => {
                   </a>
                 </div>
                 <div className="buttons">
-                    <a className="each right"
-                      style={{
+                  <a
+                    className="each right"
+                    style={{
                       fontFamily: " sans-serif",
-                      }}
-                    >Contact Us</a>
+                    }}
+                    onClick={() => {
+                      handlScrollTrigger();
+                    }}>
+                    Reserve a Site
+                  </a>
                 </div>
               </>
             )}
@@ -479,7 +502,9 @@ const Home: React.FC = () => {
                   By knowing where our precious wildlife live, like the platypus and Murray River Short-Necked Turtle, we could conserve their habitat for generations to come. Please help us collect
                   water samples which contain DNA from animals that have passed through the area in the past 14 days. Wild hey.
                 </p>
-                <p className="text-s">Learn more about why eDNA sampling is groundbreaking.</p>
+                <Stack direction="row" spacing={0.5}>
+                  <Hyperlink string="Learn more" link="https://greataustralianwildlifesearch.framer.website/about#edna" /> <p className="text-s">about why eDNA sampling is groundbreaking.</p>
+                </Stack>
               </div>
             </div>
           </div>
@@ -495,11 +520,15 @@ const Home: React.FC = () => {
                   We are currently inviting citizen scientists to reserve their testing site. Thanks to the Murray–Darling Basin Authority (MDBA) we are offering the first 420 sites for FREE.
                 </p>
                 <p className="text-s">
-                  Just so you know, it costs $400 per sampling site from site reservation to data analysis and reporting, so this season of testing would not be possible without the generous support
-                  of the MDBA.
+                  It costs $400 per sampling site from site reservation to data analysis and reporting, so this season of testing would not be possible without the generous support of the MDBA.
                 </p>
-                <p className="text-s">Head to our ‘Citizen Scientist’ section if you’d like to know a little more before reserving your site, otherwise head to the map below.</p>
-                <p className="text-s">Note: If you’re out of region but would like to be stay in the loop regarding future testing seasons, sign-up here.</p>
+                <Stack direction={"row"} spacing={0.5} flexWrap="wrap">
+                  <p className="text-s">
+                    Head to our
+                    <Hyperlink string=" Citizen Scientist " link="https://greateaustralianwildlifesearch.framer.website/for_citizen_scitists" /> section if you’d like to know a little more before
+                    reserving your site, otherwise head to the map below.
+                  </p>
+                </Stack>
               </div>
               <div className="image">
                 <img
@@ -527,7 +556,7 @@ const Home: React.FC = () => {
                 next.
               </p>
             </div>
-            <div className={lgUp ? "map-area" : "map-area-mb"}>
+            <div className={lgUp ? "map-area" : "map-area-mb"} ref={GoogleScrollRef}>
               {!isLoaded ? (
                 <div>Loading...</div>
               ) : (
@@ -928,14 +957,17 @@ const Home: React.FC = () => {
               tax-deductible in Australia.
             </p>
             <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
-              The Great Australian Wildlife Search is being delivered with support of the Basin Condition Monitoring Program – an Australian Government commitment to develop and deliver new monitoring and reporting of economic, social, cultural and environmental conditions in the Basin.
+              The Great Australian Wildlife Search is being delivered with support of the Basin Condition Monitoring Program – an Australian Government commitment to develop and deliver new monitoring
+              and reporting of economic, social, cultural and environmental conditions in the Basin.
             </p>
             <p className="text-m" style={{ margin: "30px 0 16px 0", fontWeight: "600" }}>
               The Great Australian Wildlife Search is delivered by
             </p>
-            <div className="image-row" style={{
-              width: "300px"
-            }}>
+            <div
+              className="image-row"
+              style={{
+                width: "300px",
+              }}>
               <img src="https://wildlifesearch.s3.ap-southeast-2.amazonaws.com/websites/ODONATA-foundation-line+1.png" />
             </div>
             <p className="text-m" style={{ margin: "30px 0 16px 0" }}>
@@ -1092,3 +1124,16 @@ function MenuTemplateZippedFooter() {
     </Stack>
   );
 }
+
+const Hyperlink = (props: { string: string; link: string }) => {
+  return (
+    <a
+      href={props.link}
+      style={{
+        textDecoration: "underline",
+        color: "#332820",
+      }}>
+      {props.string}
+    </a>
+  );
+};
