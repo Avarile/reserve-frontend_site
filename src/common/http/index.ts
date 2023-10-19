@@ -23,7 +23,7 @@ _http.interceptors.response.use(
     return response.data;
   },
   (err) => {
-    notify.error(err.response.data.message[0] || "error");
+    notify.error(err.response.data.message || "error");
     return Promise.reject(err)
   }
 );
