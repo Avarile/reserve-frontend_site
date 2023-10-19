@@ -525,7 +525,7 @@ const Home: React.FC = () => {
                 <Stack direction={"row"} spacing={0.5} flexWrap="wrap">
                   <p className="text-s">
                     Head to our
-                    <Hyperlink string=" Citizen Scientist " link="https://greateaustralianwildlifesearch.framer.website/for_citizen_scitists" /> section if you’d like to know a little more before
+                    <Hyperlink string=" Citizen Scientist " link="https://greataustralianwildlifesearch.framer.website/for_citizen_scientists" /> section if you’d like to know a little more before
                     reserving your site, otherwise head to the map below.
                   </p>
                 </Stack>
