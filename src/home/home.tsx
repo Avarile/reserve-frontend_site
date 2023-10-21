@@ -210,6 +210,13 @@ const Home: React.FC = () => {
     phone: "",
   });
 
+  const userInfo = useMemo(() => {
+    const user = sessionStorage.getItem("USER");
+    if (user !== null) {
+      return JSON.parse(user);
+    }
+  }, [currentUser]);
+
   // cantact
   const contactRef = useRef<Request>({
     email: "",
@@ -231,6 +238,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const userInfo = sessionStorage.getItem("USER");
+
     if (userInfo) {
       setReservationFormValue({
         ...reservationFormValue,
@@ -336,7 +344,7 @@ const Home: React.FC = () => {
                 onClick={() => {
                   !login && setIsLoginOpen(true);
                 }}>
-                {login && currentUser ? currentUser?.name : "Login / Signup"}
+                {login ? userInfo.name : "Login / Signup"}
               </a>
             </div>
           ) : (
@@ -406,7 +414,7 @@ const Home: React.FC = () => {
                           });
                         }}
                         className={`each leftMd`}>
-                        {login && currentUser ? currentUser?.name : "Login / Signup"}
+                        {login ? userInfo.name : "Login / Signup"}
                       </a>
                     </div>
                   </div>
