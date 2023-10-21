@@ -809,9 +809,9 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Address"
-                                value={currentUser?.address}
+                                value={reservationFormRef.current.address ? reservationFormRef.current.address : currentUser?.address}
                                 onChange={(e) => {
-                                  reservationFormRef.current.address = e.target.value ? e.target.value : currentUser?.address;
+                                  reservationFormRef.current.address = e.target.value;
                                 }}
                               />
                             </div>
@@ -858,7 +858,7 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Postcode"
-                                value={currentUser?.postcode}
+                                value={reservationFormRef.current.postcode ? reservationFormRef.current.postcode : currentUser?.postcode}
                                 onChange={(e) => {
                                   reservationFormRef.current.postcode = e.target.value;
                                 }}
