@@ -8,4 +8,5 @@ export interface ISite {
   location: string;
   lat: number;
   lng: number;
+  sponsor?: string;
 }

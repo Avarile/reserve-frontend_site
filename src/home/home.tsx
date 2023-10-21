@@ -11,7 +11,7 @@ import LoginModal from "./login/LoginModal";
 import SampleModal from "./sample/SampleModal";
 import { useResponsive } from "../common/use-responsive";
 import Iconify from "../common/iconify";
-import { IconButton, TextField, Button, Typography, Stack } from "@mui/material";
+import { IconButton, TextField, Button, Typography, Stack, Box } from "@mui/material";
 import { Autocomplete } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -232,24 +232,24 @@ const Home: React.FC = () => {
   useEffect(() => {
     const userInfo = sessionStorage.getItem("USER");
     if (userInfo) {
-      setCurrentUser(JSON.parse(userInfo));
       setReservationFormValue({
         ...reservationFormValue,
-        address: JSON.parse(userInfo).address,
-        name: JSON.parse(userInfo).name,
-        postcode: JSON.parse(userInfo).postcode,
+        address: JSON.parse(userInfo)?.address,
+        name: JSON.parse(userInfo)?.name,
+        postcode: JSON.parse(userInfo)?.postcode,
       });
       reservationFormRef.current = {
         ...reservationFormRef.current,
-        address: JSON.parse(userInfo).address,
-        name: JSON.parse(userInfo).name,
-        postcode: JSON.parse(userInfo).postcode,
+        address: JSON.parse(userInfo)?.address,
+        name: JSON.parse(userInfo)?.name,
+        postcode: JSON.parse(userInfo)?.postcode,
       };
       setLogin(true);
+      setCurrentUser(JSON.parse(userInfo));
     } else {
       setLogin(false);
     }
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     sitesApi().then((res) => {
@@ -293,6 +293,7 @@ const Home: React.FC = () => {
         location: site.location,
         site_id: site.site_id,
         name: site.name,
+        sponsor: site.sponsor,
       };
     });
   }, [sites]);
@@ -591,14 +592,10 @@ const Home: React.FC = () => {
                           position={{ lat: marker.lat, lng: marker.lng }}
                           onClick={() => {
                             // 没登陆，弹出登陆
-                            if (!login) {
-                              setIsLoginOpen(true);
-                            } else {
-                              enqueueSnackbar("This site has been reserved", {
-                                variant: "warning",
-                                autoHideDuration: 5000,
-                              });
-                            }
+                            enqueueSnackbar("This site has been reserved", {
+                              variant: "warning",
+                              autoHideDuration: 5000,
+                            });
                           }}
                           options={{
                             icon: {
@@ -614,13 +611,9 @@ const Home: React.FC = () => {
                         position={{ lat: marker.lat, lng: marker.lng }}
                         onClick={() => {
                           // 没登陆，弹出登陆
-                          if (!login) {
-                            setIsLoginOpen(true);
-                          } else {
-                            setSiteId(marker.site_id);
-                            setSelectedSite(marker);
-                            console.log(marker);
-                          }
+                          setSiteId(marker.site_id);
+                          setSelectedSite(marker);
+                          console.log(marker);
                         }}
                       />
                     );
@@ -689,6 +682,7 @@ const Home: React.FC = () => {
                                   fontSize: "12px",
                                   color: "#332820",
                                   lineHeight: "20px",
+                                  fontWeight: 600,
                                 }}>
                                 {"Location:"}
                               </p>
@@ -724,7 +718,7 @@ const Home: React.FC = () => {
                               <p className="tit">Site ID</p>
                               <p className="con">{site.site_id}</p>
                             </div>
-                          </div>{" "}
+                          </div>
                         </div>
                       </div>
                     );
@@ -777,7 +771,10 @@ const Home: React.FC = () => {
                           <p className="tit">Site ID</p>
                           <p className="con">{selectedSite.site_id}</p>
                         </div>
-                      </div>{" "}
+                        <Box>
+                          <Typography>Site sponsor {selectedSite.sponsor}</Typography>
+                        </Box>
+                      </div>
                     </div>
                     {isReservationOpen === false ? (
                       <button
@@ -793,10 +790,7 @@ const Home: React.FC = () => {
                         }}
                         onClick={() => {
                           if (!login) {
-                            enqueueSnackbar("Please login first", {
-                              variant: "warning",
-                              autoHideDuration: 2000,
-                            });
+                            setIsLoginOpen(true);
                           } else {
                             setIsReservationOpen(true);
                           }
@@ -904,7 +898,7 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Name"
-                                value={currentUser.name}
+                                value={currentUser?.name}
                                 onChange={(e) => {
                                   reservationFormRef.current.name = e.target.value ? e.target.value : currentUser?.name;
                                 }}
