@@ -245,7 +245,6 @@ const Home: React.FC = () => {
         postcode: JSON.parse(userInfo)?.postcode,
       };
       setLogin(true);
-      setCurrentUser(JSON.parse(userInfo));
     } else {
       setLogin(false);
     }
@@ -260,16 +259,16 @@ const Home: React.FC = () => {
     });
   }, [login]);
 
-  useEffect(() => {
-    if (searchSiteParams && searchSiteParams?.length === 4) {
-      postcodeApi(searchSiteParams).then((res) => {
-        setSitesSearched(res.data.content);
-        setSelectedSite(null);
-      });
-    } else {
-      setSitesSearched([]);
-    }
-  }, [searchSiteParams]);
+  // useEffect(() => {
+  //   if (searchSiteParams && searchSiteParams?.length === 4) {
+  //     postcodeApi(searchSiteParams).then((res) => {
+  //       setSitesSearched(res.data.content);
+  //       setSelectedSite(null);
+  //     });
+  //   } else {
+  //     setSitesSearched([]);
+  //   }
+  // }, [searchSiteParams]);
 
   const GoogleScrollRef = useRef<HTMLDivElement>(null);
 
