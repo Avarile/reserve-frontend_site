@@ -200,6 +200,15 @@ const Home: React.FC = () => {
   const [siteId, setSiteId] = useState(0);
   const [sitesReserved, setSitesReserved] = useState<ISite[]>([]);
   const isMobile = window.innerWidth < 768 ? true : false;
+  const [reservationFormValue, setReservationFormValue] = useState<ReservationFormRef>({
+    site_id: 0,
+    postcode: currentUser?.postcode,
+    address: currentUser?.address,
+    state: "",
+    suburb: "",
+    name: currentUser?.name,
+    phone: "",
+  });
 
   // cantact
   const contactRef = useRef<Request>({
@@ -224,6 +233,18 @@ const Home: React.FC = () => {
     const userInfo = sessionStorage.getItem("USER");
     if (userInfo) {
       setCurrentUser(JSON.parse(userInfo));
+      setReservationFormValue({
+        ...reservationFormValue,
+        address: JSON.parse(userInfo).address,
+        name: JSON.parse(userInfo).name,
+        postcode: JSON.parse(userInfo).postcode,
+      });
+      reservationFormRef.current = {
+        ...reservationFormRef.current,
+        address: JSON.parse(userInfo).address,
+        name: JSON.parse(userInfo).name,
+        postcode: JSON.parse(userInfo).postcode,
+      };
       setLogin(true);
     } else {
       setLogin(false);
@@ -809,9 +830,13 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Address"
-                                value={reservationFormRef.current.address ? reservationFormRef.current.address : currentUser?.address}
+                                value={reservationFormValue.address}
                                 onChange={(e) => {
                                   reservationFormRef.current.address = e.target.value;
+                                  setReservationFormValue({
+                                    ...reservationFormValue,
+                                    address: e.target.value,
+                                  });
                                 }}
                               />
                             </div>
@@ -858,9 +883,13 @@ const Home: React.FC = () => {
                               <input
                                 type="text"
                                 placeholder="Postcode"
-                                value={reservationFormRef.current.postcode ? reservationFormRef.current.postcode : currentUser?.postcode}
+                                value={reservationFormValue.postcode}
                                 onChange={(e) => {
                                   reservationFormRef.current.postcode = e.target.value;
+                                  setReservationFormValue({
+                                    ...reservationFormValue,
+                                    postcode: e.target.value,
+                                  });
                                 }}
                               />
                             </div>
