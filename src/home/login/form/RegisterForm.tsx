@@ -13,8 +13,9 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
     <Container className={props.className}>
       <div className="input-area">
         <div className="form-item">
-          <label>Email</label>
+          <label>Email *</label>
           <input
+            required
             onChange={(e) => {
               formRef!.current.email = e.target.value;
             }}
@@ -23,8 +24,9 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
           />
         </div>
         <div className="form-item">
-          <label>Full name</label>
+          <label>Full name *</label>
           <input
+            required
             onChange={(e) => {
               formRef!.current.name = e.target.value;
             }}
@@ -33,7 +35,7 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
           />
         </div>
         <div className="form-item">
-          <label>Password</label>
+          <label>Password *</label>
           <input
             onChange={(e) => {
               formRef!.current.password = e.target.value;
@@ -43,7 +45,7 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
           />
         </div>
         <div className="form-item">
-          <label>Address</label>
+          <label>Address *</label>
           <input
             onChange={(e) => {
               formRef!.current.address = e.target.value;
@@ -54,7 +56,7 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
         </div>
         <div className="line-wrapper">
           <div className="form-item">
-            <label>City</label>
+            <label>City *</label>
             <input
               onChange={(e) => {
                 formRef!.current.city = e.target.value;
@@ -64,7 +66,7 @@ const RegisterForm: React.ComponentType<RegisterFormPropsType> = (props) => {
             />
           </div>
           <div className="form-item">
-            <label>Postcode</label>
+            <label>Postcode *</label>
             <input
               type="text"
               placeholder="Enter postcode"

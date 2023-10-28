@@ -16,6 +16,7 @@ import { Autocomplete } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import styled from "@emotion/styled";
+import { object } from "yup";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
@@ -105,6 +106,16 @@ export type ReservationFormRef = {
   name: string;
   phone: string;
 };
+
+export const reservationSchema = object({
+  site_id: object().required("Site ID is required"),
+  postcode: object().required("Postcode is required"),
+  address: object().required("Address is required"),
+  state: object().required("State is required"),
+  suburb: object().required("Suburb is required"),
+  name: object().required("Name is required"),
+  phone: object().required("Phone is required"),
+});
 
 const testMarkers = [
   {
@@ -826,7 +837,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                Address
+                                Address *
                               </p>
                               <input
                                 type="text"
@@ -847,7 +858,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                Suburb
+                                Suburb *
                               </p>
                               <input
                                 type="text"
@@ -863,7 +874,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                State
+                                State *
                               </p>
                               <input
                                 type="text"
@@ -879,7 +890,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                PostCode
+                                PostCode *
                               </p>
                               <input
                                 type="text"
@@ -900,7 +911,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                Name
+                                Name *
                               </p>
                               <input
                                 type="text"
@@ -917,7 +928,7 @@ const Home: React.FC = () => {
                                   fontSize: "13px",
                                   fontWeight: "bold",
                                 }}>
-                                Phone
+                                Phone *
                               </p>
                               <input
                                 type="text"
@@ -940,15 +951,24 @@ const Home: React.FC = () => {
                                 boxShadow: "1px 1px 0 grey",
                                 marginTop: "16px",
                               }}
-                              onClick={() => {
+                              onClick={async () => {
                                 reservationFormRef.current.site_id = selectedSite.site_id;
-                                reservationCreateApi(reservationFormRef.current).then((res) => {
-                                  enqueueSnackbar("Your reservation has been sent successfully!", {
-                                    variant: "success",
+
+                                try {
+                                  await reservationSchema.validate(reservationFormRef.current);
+                                  reservationCreateApi(reservationFormRef.current).then((res) => {
+                                    enqueueSnackbar("Your reservation has been sent successfully!", {
+                                      variant: "success",
+                                      autoHideDuration: 2000,
+                                    });
+                                    setIsReservationOpen(false);
+                                  });
+                                } catch (error: any) {
+                                  enqueueSnackbar(error.message, {
+                                    variant: "error",
                                     autoHideDuration: 2000,
                                   });
-                                  setIsReservationOpen(false);
-                                });
+                                }
                               }}>
                               Save and deliver here
                             </button>
