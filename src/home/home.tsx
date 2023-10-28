@@ -29,7 +29,6 @@ const about = {
   items: [
     {
       name: "About Odonata Foundation",
-
       link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
@@ -37,16 +36,12 @@ const about = {
       link: "https://greataustralianwildlifesearch.framer.website/murraydarling",
     },
     {
-      name: "Program Partner",
+      name: "Program partners",
       link: "https://greataustralianwildlifesearch.framer.website/about#odonata-foundation",
     },
     {
       name: "How eDNA Works",
       link: "https://greataustralianwildlifesearch.framer.website/about#edna",
-    },
-    {
-      name: "FAQs",
-      link: "https://greataustralianwildlifesearch.framer.website/faq",
     },
   ],
 };
@@ -79,10 +74,6 @@ const citizen = {
     {
       name: "How to Register",
       link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#register",
-    },
-    {
-      name: "Login to Record Data",
-      link: "https://greataustralianwildlifesearch.framer.website/for_citizen_scientists#login",
     },
     {
       name: "Testing Instructions",
@@ -506,7 +497,7 @@ const Home: React.FC = () => {
                     }}
                     className={`each ${lgUp ? "left" : "leftMd"}`}
                     onClick={() => {
-                      setIsSampleOpen(true);
+                      login ? setIsSampleOpen(true) : setIsLoginOpen(true);
                     }}>
                     Submit Sample
                   </a>
@@ -565,8 +556,8 @@ const Home: React.FC = () => {
                 <Stack direction={"row"} spacing={0.5} flexWrap="wrap">
                   <p className="text-s">
                     Head to our
-                    <Hyperlink string=" Citizen Scientist " link="https://greataustralianwildlifesearch.framer.website/for_citizen_scientists" /> section if you’d like to know a little more before
-                    reserving your site, otherwise head to the map below.
+                    <Hyperlink string=" Citizen Scientist " link="https://greataustralianwildlifesearch.framer.website/join-the-search" /> section if you’d like to know a little more before reserving
+                    your site, otherwise head to the map below.
                   </p>
                 </Stack>
               </div>
@@ -592,8 +583,9 @@ const Home: React.FC = () => {
             <div className="title">
               <p className="high">Reserve your testing site</p>
               <p className="normal">
-                Simply use the map to reserve your preferred testing location. You will receive a confirmation email with all the details, including when test kits will be distributed and what happens
-                next.
+                Simply use the map to reserve your preferred testing location. Drag the map to your desired location and look for red markers, which signify available sites. When you click on a
+                marker, the site information will appear to the right of the map if you are using a desktop computer, or below the map on a smartphone. From there, click ‘reserve’ to secure your site.
+                Thank you.
               </p>
             </div>
             <div className={lgUp ? "map-area" : "map-area-mb"} ref={GoogleScrollRef}>
@@ -1042,14 +1034,11 @@ const Home: React.FC = () => {
           <div className="site-info">
             <p className="text">© 2023 Odonata Foundation. All rights reserved.</p>
             <div className="icons">
-              <a className="each">
+              <a className="each" href="https://www.facebook.com/OdonataOrgAu">
                 <img src={facebookSVG} />
               </a>
-              <a className="each">
+              <a className="each" href="https://www.instagram.com/odonata_foundation/">
                 <img src={instagramSVG} />
-              </a>
-              <a className="each">
-                <img src={twitterSVG} />
               </a>
             </div>
           </div>

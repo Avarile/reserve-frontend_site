@@ -8,7 +8,6 @@ import SampleStep3 from "./step/SampleStep3";
 import SampleStep4 from "./step/SampleStep4";
 import { enqueueSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
-import { type } from "os";
 
 function sampleCreateApi(params: FormRef) {
   return http.request<{ data: any }>({
@@ -172,7 +171,7 @@ const SampleModal: React.ComponentType<InputModalPropsType> = (props) => {
         ) : (
           <>
             <div className="title">Submit your sample</div>
-            <div className="sub-title">Follow the steps below and mark sure all details are correct before continuing.</div>
+            <div className="sub-title">Follow the steps below and make sure all details are correct before continuing.</div>
             <div className="content">
               <div className="step">
                 <div className="each each-active">

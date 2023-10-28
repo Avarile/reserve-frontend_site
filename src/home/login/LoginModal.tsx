@@ -7,6 +7,7 @@ import RegisterForm from "./form/RegisterForm";
 import { useSnackbar } from "notistack";
 import { useResponsive } from "../../common/use-responsive";
 import { object, string } from "yup";
+import { Icon } from "@iconify/react";
 
 let registerSchema = object({
   email: string().email().required(),
@@ -45,11 +46,12 @@ type InputModalPropsType = {
   login: boolean;
   setLogin: Dispatch<SetStateAction<boolean>>;
   setCurrentUser: Dispatch<SetStateAction<any>>;
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
   const [type, setType] = useState<"login" | "register">("login");
+  const isMobile = useResponsive("down", "md");
   const { enqueueSnackbar } = useSnackbar();
 
   const loginFormRef = useRef({
@@ -104,10 +106,22 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
   };
   const lgUp = useResponsive("up", "lg");
   return (
-    <Modal open={props.open} onClose={() => props.onClose && props.onClose()} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
-      overflow: "scroll",
-    }}>
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose && props.onClose()}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      sx={{
+        overflow: "scroll",
+      }}>
       <Container lgUp={lgUp}>
+        <Icon
+          icon="carbon:close"
+          width="50"
+          height="24"
+          onClick={() => props?.onClose()}
+          style={{ position: "absolute", top: isMobile ? "10px" : "16px", right: isMobile ? "10px" : "16px", cursor: "pointer", zIndex: "150" }}
+        />
         <div className="logo">
           <img src="http://www.demo.smileitsolutions.com/odonata/wp-content/uploads/2023/09/Logotype-Wildlife-Search_Odonata-1.svg" />
         </div>
