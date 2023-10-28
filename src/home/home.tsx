@@ -344,7 +344,7 @@ const Home: React.FC = () => {
                 onClick={() => {
                   !login && setIsLoginOpen(true);
                 }}>
-                {login ? userInfo.name : "Login / Signup"}
+                {login ? userInfo?.name : "Login / Signup"}
               </a>
             </div>
           ) : (
@@ -414,7 +414,7 @@ const Home: React.FC = () => {
                           });
                         }}
                         className={`each leftMd`}>
-                        {login ? userInfo.name : "Login / Signup"}
+                        {login ? userInfo?.name : "Login / Signup"}
                       </a>
                     </div>
                   </div>
@@ -1092,12 +1092,12 @@ export function MenuTemplate(props: { data: IMenuTitle }) {
         }}>
         {props.data.items.map((item) => (
           <MenuItem
-            key={item.name}
+            key={item?.name}
             onClick={() => {
               window.location.href = item.link;
             }}>
             <Typography variant="inherit" noWrap color={"#332820"}>
-              {item.name}
+              {item?.name}
             </Typography>
           </MenuItem>
         ))}
