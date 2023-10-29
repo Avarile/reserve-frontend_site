@@ -111,10 +111,8 @@ const InputModal: React.ComponentType<InputModalPropsType> = (props) => {
       onClose={() => props.onClose && props.onClose()}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      sx={{
-        overflow: "scroll",
-      }}>
-      <Container lgUp={lgUp}>
+      >
+      <Container lgUp={lgUp} sx={{}}>
         <Icon
           icon="carbon:close"
           width="50"

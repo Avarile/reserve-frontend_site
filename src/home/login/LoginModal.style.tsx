@@ -12,6 +12,8 @@ const Container = styled((props: any) => {
   borderRadius: "16px",
   width: "300px",
   maxWidth: "400px",
+  overflow: "scroll",
+  height:"80%",
 
   "& > .logo": {
     display: "flex",
