@@ -16,7 +16,7 @@ import { Autocomplete } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import styled from "@emotion/styled";
-import { object } from "yup";
+import { object, string } from "yup";
 
 // const current_user = window.sessionStorage.getItem("USER");
 // const token = window.sessionStorage.getItem("ACCESS_TOKEN");
@@ -99,13 +99,13 @@ export type ReservationFormRef = {
 };
 
 export const reservationSchema = object({
-  site_id: object().required("Site ID is required"),
-  postcode: object().required("Postcode is required"),
-  address: object().required("Address is required"),
-  state: object().required("State is required"),
-  suburb: object().required("Suburb is required"),
-  name: object().required("Name is required"),
-  phone: object().required("Phone is required"),
+  site_id: string().required("Site ID is required"),
+  postcode: string().required("Postcode is required"),
+  address: string().required("Address is required"),
+  state: string().required("State is required"),
+  suburb: string().required("Suburb is required"),
+  name: string().required("Name is required"),
+  phone: string().required("Phone is required"),
 });
 
 const testMarkers = [
